@@ -7,16 +7,16 @@ public class RhythmManager : MonoBehaviour
     private float rawBeat;
     public int beat;
     public int measureNum = 1;
-    [SerializeField] private int tempo;
-    [SerializeField] private int beatsPerMeasure;
+    public Song[] songs;
+    private int currentSong;
 
     void Update()
     {
-        rawBeat += Time.deltaTime*(tempo/60);
-        if (rawBeat > beatsPerMeasure+1)
+        rawBeat += Time.deltaTime*(songs[currentSong].tempo/60);
+        if (rawBeat > songs[currentSong].beatsPerMeasure+1)
         {
             measureNum++;
-            rawBeat -= beatsPerMeasure;
+            rawBeat -= songs[currentSong].beatsPerMeasure;
         }
         beat = (int)Mathf.Floor(rawBeat);
     }
