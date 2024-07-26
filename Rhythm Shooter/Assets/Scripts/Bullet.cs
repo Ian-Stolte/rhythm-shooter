@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Vector3 direction;
+    public float speed;
+    private float distanceTraveled;
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        transform.position += direction*speed;
+        distanceTraveled += Vector3.Magnitude(direction)*speed;
+        if (distanceTraveled > 20)
+        {
+            Destroy(gameObject);
+        }
     }
 }

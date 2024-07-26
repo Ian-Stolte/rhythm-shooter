@@ -712,6 +712,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 333be9a642c0af841ae2a186ba251cd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  beat: 0
+  measureNum: 1
+  tempo: 120
+  beatsPerMeasure: 4
 --- !u!4 &1830557195
 Transform:
   m_ObjectHideFlags: 0

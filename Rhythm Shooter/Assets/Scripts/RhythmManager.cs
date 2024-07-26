@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class RhythmManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private float rawBeat;
+    public int beat;
+    public int measureNum = 1;
+    [SerializeField] private int tempo;
+    [SerializeField] private int beatsPerMeasure;
 
-    // Update is called once per frame
     void Update()
     {
-        
+        rawBeat += Time.deltaTime*(tempo/60);
+        if (rawBeat > beatsPerMeasure+1)
+        {
+            measureNum++;
+            rawBeat -= beatsPerMeasure;
+        }
+        beat = (int)Mathf.Floor(rawBeat);
     }
 }

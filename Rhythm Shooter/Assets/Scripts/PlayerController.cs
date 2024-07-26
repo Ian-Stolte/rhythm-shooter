@@ -9,17 +9,19 @@ public class PlayerController : MonoBehaviour
     private Vector3 bulletDir;
 
     [SerializeField] private GameObject bulletPrefab;
+    private RhythmManager rhythm;
 
     void Start()
     {
         directionIndicator = GameObject.Find("Direction Indicator");
+        rhythm = GameObject.Find("Rhythm Manager").GetComponent<RhythmManager>();
     }
 
     void Update()
     {
         mouseAngle = GetMouseRot();
         directionIndicator.transform.RotateAround(transform.position, new Vector3(0, 0, 1), mouseAngle - directionIndicator.transform.rotation.eulerAngles.z);
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && (rhythm.beat == 1 || rhythm.beat == 3))
         {
             FireBullet();
         }
@@ -39,6 +41,7 @@ public class PlayerController : MonoBehaviour
 
     private void FireBullet()
     {
-        Instantiate(bulletPrefab, transform.position + bulletDir, Quaternion.identity, GameObject.Find("Bullets").transform);
+        GameObject bullet = Instantiate(bulletPrefab, transform.position + bulletDir, Quaternion.identity, GameObject.Find("Bullets").transform);
+        bullet.GetComponent<Bullet>().direction = bulletDir;
     }
 }
