@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 575296500616496726}
   - component: {fileID: 1702383778546046751}
   - component: {fileID: 9121055090319370906}
-  m_Layer: 5
-  m_Name: Note
+  m_Layer: 3
+  m_Name: Kick Note
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90,6 +90,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 80
+  type: Kick
+  triggerKey: 32
 --- !u!225 &9121055090319370906
 CanvasGroup:
   m_ObjectHideFlags: 0

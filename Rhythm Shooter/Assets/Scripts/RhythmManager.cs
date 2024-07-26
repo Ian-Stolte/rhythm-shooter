@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RhythmManager : MonoBehaviour
 {
@@ -9,9 +10,9 @@ public class RhythmManager : MonoBehaviour
     [SerializeField] private int timesRepeated;
     [SerializeField] private int currentSong;
     public Song[] songs;
-    //private List<Note> notes = new List<Note>();
 
-    [SerializeField] private GameObject notePrefab;
+    [SerializeField] private GameObject kickPrefab;
+    [SerializeField] private GameObject snarePrefab;
 
     void Start()
     {
@@ -28,13 +29,14 @@ public class RhythmManager : MonoBehaviour
             {
                 if (n.beat == beat + 1.5f && !n.spawned)
                 {
-                    GameObject obj = Instantiate(notePrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Notes").transform);
                     if (n.drumType == Note.drums.KICK)
                     {
+                        GameObject obj = Instantiate(kickPrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Notes").transform);
                         obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(250, -130, 0);
                     }
                     else if (n.drumType == Note.drums.SNARE)
                     {
+                        GameObject obj = Instantiate(snarePrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Notes").transform);
                         obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(250, -80, 0);
                     }
                     n.spawned = true;

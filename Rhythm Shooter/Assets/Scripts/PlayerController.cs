@@ -8,8 +8,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float mouseAngle;
     private Vector3 bulletDir;
 
-    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private GameObject kickBullet;
+    [SerializeField] private GameObject snareBullet;
     private RhythmManager rhythm;
+    [SerializeField] private BoxCollider2D bar;
 
     void Start()
     {
@@ -21,10 +23,17 @@ public class PlayerController : MonoBehaviour
     {
         mouseAngle = GetMouseRot();
         directionIndicator.transform.RotateAround(transform.position, new Vector3(0, 0, 1), mouseAngle - directionIndicator.transform.rotation.eulerAngles.z);
-        if (Input.GetKeyDown(KeyCode.Space) && (rhythm.beat == 1 || rhythm.beat == 3))
+        /*Bounds b = bar.bounds;
+        if (Input.GetKeyDown(KeyCode.Space) && Physics2D.OverlapBox(b.center, b.extents*2, 0, LayerMask.GetMask("Kick")))
         {
             FireBullet();
+            Destroy(Physics2D.OverlapBox(b.center, b.extents * 2, 0, LayerMask.GetMask("Kick")).gameObject);
         }
+        else if (Input.GetKeyDown(KeyCode.LeftShift) && Physics2D.OverlapBox(b.center, b.extents*2, 0, LayerMask.GetMask("Snare")))
+        {
+            FireBullet();
+            Destroy(Physics2D.OverlapBox(b.center, b.extents*2, 0, LayerMask.GetMask("Snare")).gameObject);
+        }*/
     }
 
     private float GetMouseRot()
@@ -39,9 +48,14 @@ public class PlayerController : MonoBehaviour
         return(Mathf.Atan2(mouseYChange, mouseXChange) * Mathf.Rad2Deg - 90);
     }
 
-    private void FireBullet()
+    public void FireBullet(string type)
     {
-        GameObject bullet = Instantiate(bulletPrefab, transform.position + bulletDir, Quaternion.identity, GameObject.Find("Bullets").transform);
-        bullet.GetComponent<Bullet>().direction = bulletDir;
+        GameObject bullet = null;
+        if (type == "Kick")
+            bullet = Instantiate(kickBullet, transform.position + bulletDir, Quaternion.identity, GameObject.Find("Bullets").transform);
+        else if (type == "Snare")
+            bullet = Instantiate(snareBullet, transform.position + bulletDir, Quaternion.identity, GameObject.Find("Bullets").transform);
+        if (bullet != null)
+            bullet.GetComponent<Bullet>().direction = bulletDir;
     }
 }
