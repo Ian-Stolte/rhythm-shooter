@@ -2,12 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Song : MonoBehaviour
+[System.Serializable]
+public class Song
 {
     public int tempo;
     public int beatsPerMeasure;
+    public int length;
     public int repeats;
-    public int[] kickBeats;
+    public Note[] notes;
+    /*public int[] kickBeats;
     public int[] snareBeats;
     public int[] hiHatBeats;
+    public string kickBeats;
+    public string snareBeats;
+    public string hiHatBeats;*/
 }
