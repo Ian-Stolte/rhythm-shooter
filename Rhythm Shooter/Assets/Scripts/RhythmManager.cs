@@ -7,8 +7,8 @@ public class RhythmManager : MonoBehaviour
 {
     private float rawBeat;
     public float beat;
-    [SerializeField] private int timesRepeated;
-    [SerializeField] private int currentSong;
+    public int timesRepeated;
+    public int songNum;
     public Song[] songs;
 
     [SerializeField] private GameObject kickPrefab;
@@ -26,16 +26,16 @@ public class RhythmManager : MonoBehaviour
     void FixedUpdate()
     {
         //Keep time
-        if (currentSong < songs.Length)
+        if (songNum < songs.Length)
         {
-            rawBeat += Time.deltaTime * (songs[currentSong].tempo / 60.0f);
-            if (rawBeat > songs[currentSong].length + 0.875f)
+            rawBeat += Time.deltaTime * (songs[songNum].tempo / 60.0f);
+            if (rawBeat > songs[songNum].length + 0.875f)
             {
-                if (timesRepeated < songs[currentSong].repeats)
+                if (timesRepeated < songs[songNum].repeats)
                 {
-                    rawBeat -= songs[currentSong].length;
+                    rawBeat -= songs[songNum].length;
                     timesRepeated++;
-                    foreach (Note n in songs[currentSong].notes)
+                    foreach (Note n in songs[songNum].notes)
                     {
                         n.spawned = false;
                     }
@@ -43,7 +43,7 @@ public class RhythmManager : MonoBehaviour
                 }
                 else
                 {
-                    currentSong++;
+                    songNum++;
                     timesRepeated = 0;
                     rawBeat = 0;
                 }
@@ -54,22 +54,22 @@ public class RhythmManager : MonoBehaviour
 
     void Update()
     {
-        if (currentSong < songs.Length)
+        if (songNum < songs.Length)
         {
             //Spawn Notes
-            foreach (Note n in songs[currentSong].notes)
+            foreach (Note n in songs[songNum].notes)
             {
                 if (n.beat%8 == (beat+1.5f)%8 && !n.spawned && beat >= -0.5f)
                 {
                     if (n.drumType == Note.drums.KICK)
                     {
                         GameObject obj = Instantiate(kickPrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Notes").transform);
-                        obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(800, -460, 0);
+                        obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(830, -460, 0);
                     }
                     else if (n.drumType == Note.drums.SNARE)
                     {
                         GameObject obj = Instantiate(snarePrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Notes").transform);
-                        obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(800, -360, 0);
+                        obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(830, -360, 0);
                     }
                     n.spawned = true;
                     n.played = false; //TODO: figure out a good way to store which notes have been successfully played & reset on each repeat

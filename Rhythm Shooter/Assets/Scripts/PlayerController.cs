@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     private GameObject directionIndicator;
-    [SerializeField] private float mouseAngle;
+    private float mouseAngle;
     private Vector3 bulletDir;
+
+    [SerializeField] private float maxHealth;
+    public float health;
+    [SerializeField] private float knockback;
 
     [SerializeField] private GameObject kickBullet;
     [SerializeField] private GameObject snareBullet;
@@ -15,6 +20,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        health = maxHealth;
         directionIndicator = GameObject.Find("Direction Indicator");
         rhythm = GameObject.Find("Rhythm Manager").GetComponent<RhythmManager>();
     }
@@ -50,12 +56,26 @@ public class PlayerController : MonoBehaviour
 
     public void FireBullet(string type)
     {
+        GetComponent<Animator>().Play("Fire");
         GameObject bullet = null;
         if (type == "Kick")
+        {
             bullet = Instantiate(kickBullet, transform.position + bulletDir, Quaternion.identity, GameObject.Find("Bullets").transform);
+        }
         else if (type == "Snare")
+        {
             bullet = Instantiate(snareBullet, transform.position + bulletDir, Quaternion.identity, GameObject.Find("Bullets").transform);
+        }
         if (bullet != null)
             bullet.GetComponent<Bullet>().direction = bulletDir;
+    }
+
+    public void TakeDamage(GameObject g, float dmg)
+    {   
+        health -= dmg;
+        GetComponent<Animator>().Play("TakeDamage");
+        GameObject.Find("HP Bar").GetComponent<Image>().fillAmount = health/maxHealth;
+        //TODO: knockback (without a rigidbody??)
+        //GetComponent<Rigidbody2D>().AddForce(Vector3.Normalize(transform.position - g.transform.position)*knockback);
     }
 }
