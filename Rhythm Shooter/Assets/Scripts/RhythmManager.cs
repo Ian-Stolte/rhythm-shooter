@@ -14,37 +14,20 @@ public class RhythmManager : MonoBehaviour
     [SerializeField] private GameObject kickPrefab;
     [SerializeField] private GameObject snarePrefab;
 
+    private AudioManager audio;
+
     void Start()
     {
-        beat = -1;
-        //CreateNotes(songs[0]);
+        rawBeat = -4;
+        audio = GameObject.Find("Audio Manager").GetComponent<AudioManager>();
+        audio.Play("Song 1");
     }
 
-    void Update()
+    void FixedUpdate()
     {
+        //Keep time
         if (currentSong < songs.Length)
         {
-            //Spawn Notes
-            foreach (Note n in songs[currentSong].notes)
-            {
-                if (n.beat == beat + 1.5f && !n.spawned)
-                {
-                    if (n.drumType == Note.drums.KICK)
-                    {
-                        GameObject obj = Instantiate(kickPrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Notes").transform);
-                        obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(250, -130, 0);
-                    }
-                    else if (n.drumType == Note.drums.SNARE)
-                    {
-                        GameObject obj = Instantiate(snarePrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Notes").transform);
-                        obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(250, -80, 0);
-                    }
-                    n.spawned = true;
-                    n.played = false; //TODO: figure out a good way to store which notes have been successfully played & reset on each repeat
-                }
-            }
-
-            //Keep time
             rawBeat += Time.deltaTime * (songs[currentSong].tempo / 60.0f);
             if (rawBeat > songs[currentSong].length + 0.875f)
             {
@@ -66,6 +49,32 @@ public class RhythmManager : MonoBehaviour
                 }
             }
             beat = Mathf.Round(4 * rawBeat) / 4;
+        }
+    }
+
+    void Update()
+    {
+        if (currentSong < songs.Length)
+        {
+            //Spawn Notes
+            foreach (Note n in songs[currentSong].notes)
+            {
+                if (n.beat%8 == (beat+1.5f)%8 && !n.spawned && beat >= -0.5f)
+                {
+                    if (n.drumType == Note.drums.KICK)
+                    {
+                        GameObject obj = Instantiate(kickPrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Notes").transform);
+                        obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(800, -460, 0);
+                    }
+                    else if (n.drumType == Note.drums.SNARE)
+                    {
+                        GameObject obj = Instantiate(snarePrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Notes").transform);
+                        obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(800, -360, 0);
+                    }
+                    n.spawned = true;
+                    n.played = false; //TODO: figure out a good way to store which notes have been successfully played & reset on each repeat
+                }
+            }
         }
     }
 

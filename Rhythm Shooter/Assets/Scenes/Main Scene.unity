@@ -152,29 +152,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a55e8938dc476f419118da43b787760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  music: []
+  music:
+  - name: Song 1
+    clip: {fileID: 8300000, guid: fdeaab68a2fbf4615bb58fcf640c5535, type: 3}
+    volume: 0.6
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
   sfx:
   - name: Missed Kick
-    clip: {fileID: 0}
-    volume: 0.2
+    clip: {fileID: 8300000, guid: 8a4f54cbcc55e43a0adfa6566386a601, type: 3}
+    volume: 0.15
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Success Kick
-    clip: {fileID: 0}
-    volume: 0.6
+    clip: {fileID: 8300000, guid: ed67d7610a21d4d1fa725759b49d05ba, type: 3}
+    volume: 0.5
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Missed Snare
-    clip: {fileID: 0}
-    volume: 0.2
+    clip: {fileID: 8300000, guid: 1c4c42040c15240a09fd4a66f3e35ca5, type: 3}
+    volume: 0.08
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Success Snare
-    clip: {fileID: 0}
-    volume: 0.6
+    clip: {fileID: 8300000, guid: 693f7febb0a6b4050b8c35949bd7d9a3, type: 3}
+    volume: 0.5
     pitch: 1
     loop: 0
     source: {fileID: 0}
@@ -189,7 +195,7 @@ Transform:
   m_GameObject: {fileID: 120882431}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 275.20483, y: 119.851974, z: -0.94406974}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -311,12 +317,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
+  m_UiScaleMode: 1
+  m_ReferencePixelsPerUnit: 128
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -788,7 +794,7 @@ Transform:
   m_GameObject: {fileID: 1611097895}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.0242393, y: 0.878623, z: -0.01859265}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -822,14 +828,14 @@ RectTransform:
   m_GameObject: {fileID: 1698027223}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.033332, y: 0.8, z: 1}
+  m_LocalScale: {x: 0.08312334, y: 1.9950399, z: 2.4938}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 485822350}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 130, y: -104}
+  m_AnchoredPosition: {x: 440, y: -390}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1698027225
@@ -944,17 +950,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 333be9a642c0af841ae2a186ba251cd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beat: 1
+  beat: -3
   timesRepeated: 0
   currentSong: 0
   songs:
   - tempo: 120
     beatsPerMeasure: 4
     length: 8
-    repeats: 4
+    repeats: 14
     notes:
     - drumType: 0
       beat: 1
+      played: 0
+      spawned: 0
+    - drumType: 1
+      beat: 3
       played: 0
       spawned: 0
     - drumType: 0
@@ -969,16 +979,12 @@ MonoBehaviour:
       beat: 6.5
       played: 0
       spawned: 0
-    - drumType: 0
-      beat: 8.5
-      played: 0
-      spawned: 0
-    - drumType: 1
-      beat: 3
-      played: 0
-      spawned: 0
     - drumType: 1
       beat: 7
+      played: 0
+      spawned: 0
+    - drumType: 0
+      beat: 8
       played: 0
       spawned: 0
   kickPrefab: {fileID: 3693944971279638307, guid: 2e216d8ed8e74254d83a4161e5eeaab1, type: 3}
@@ -992,7 +998,7 @@ Transform:
   m_GameObject: {fileID: 1830557193}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.0619, y: -2.224767, z: -0.12416777}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1003,10 +1009,10 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
+  - {fileID: 120882433}
   - {fileID: 1830557195}
   - {fileID: 485822350}
   - {fileID: 554520410}
   - {fileID: 1205779454}
   - {fileID: 1611097896}
   - {fileID: 476491824}
-  - {fileID: 120882433}
