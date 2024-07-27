@@ -206,6 +206,12 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: Song 2
+    clip: {fileID: 8300000, guid: b8484117c9dd34467947e55705554444, type: 3}
+    volume: 0.6
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
   sfx:
   - name: Missed Kick
     clip: {fileID: 8300000, guid: 8a4f54cbcc55e43a0adfa6566386a601, type: 3}
@@ -1421,7 +1427,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 440, y: -390}
+  m_AnchoredPosition: {x: 340, y: -390}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1698027225
@@ -1613,41 +1619,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   beat: 0
   timesRepeated: 0
-  songNum: 0
+  songNum: 1
   songs:
   - tempo: 120
     beatsPerMeasure: 4
     length: 8
-    repeats: 14
-    notes:
-    - drumType: 0
-      beat: 1
-      played: 0
-      spawned: 0
-    - drumType: 1
-      beat: 3
-      played: 0
-      spawned: 0
-    - drumType: 0
-      beat: 4.5
-      played: 0
-      spawned: 0
-    - drumType: 0
-      beat: 5.5
-      played: 0
-      spawned: 0
-    - drumType: 0
-      beat: 6.5
-      played: 0
-      spawned: 0
-    - drumType: 1
-      beat: 7
-      played: 0
-      spawned: 0
-    - drumType: 0
-      beat: 8
-      played: 0
-      spawned: 0
+    repeats: 16
+    kickBeats: 1, 4.5, 5.5, 6.5, 8
+    snareBeats: 3, 7
+    hiHatBeats: 
+  - tempo: 120
+    beatsPerMeasure: 4
+    length: 16
+    repeats: 7
+    kickBeats: 1, 2, 3, 4, 4.5, 5, 6, 7, 7.5, 8, 9, 10, 11, 12, 12.5, 13, 14, 15,
+      15.5, 16, 16.5
+    snareBeats: 2, 4, 6, 8, 8.5, 8.75, 10, 12, 14, 16, 16.25, 16.75
+    hiHatBeats: 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9,
+      9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15, 15.5, 16, 16.5
   kickPrefab: {fileID: 3693944971279638307, guid: 2e216d8ed8e74254d83a4161e5eeaab1, type: 3}
   snarePrefab: {fileID: 3693944971279638307, guid: 65586eb09d21ea441a52440f1ae83e07, type: 3}
   levelClearedTxt: {fileID: 257627884}

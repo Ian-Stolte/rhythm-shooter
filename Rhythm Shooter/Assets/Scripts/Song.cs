@@ -9,11 +9,8 @@ public class Song
     public int beatsPerMeasure;
     public int length;
     public int repeats;
-    public Note[] notes;
-    /*public int[] kickBeats;
-    public int[] snareBeats;
-    public int[] hiHatBeats;
+    //public Note[] notes;
     public string kickBeats;
     public string snareBeats;
-    public string hiHatBeats;*/
+    public string hiHatBeats;
 }

@@ -10,6 +10,7 @@ public class RhythmManager : MonoBehaviour
     public int timesRepeated;
     public int songNum;
     public Song[] songs;
+    private List<Note> notes = new List<Note>();
 
     [SerializeField] private GameObject kickPrefab;
     [SerializeField] private GameObject snarePrefab;
@@ -21,7 +22,8 @@ public class RhythmManager : MonoBehaviour
     {
         rawBeat = -4;
         audio = GameObject.Find("Audio Manager").GetComponent<AudioManager>();
-        audio.Play("Song 1");
+        audio.Play("Song " + (songNum+1));
+        CreateNotes(songs[songNum]);
     }
 
     void FixedUpdate()
@@ -32,11 +34,11 @@ public class RhythmManager : MonoBehaviour
             rawBeat += Time.deltaTime * (songs[songNum].tempo / 60.0f);
             if (rawBeat > songs[songNum].length + 0.875f)
             {
-                if (timesRepeated < songs[songNum].repeats)
+                if (timesRepeated < songs[songNum].repeats-2)
                 {
                     rawBeat -= songs[songNum].length;
                     timesRepeated++;
-                    foreach (Note n in songs[songNum].notes)
+                    foreach (Note n in notes)
                     {
                         n.spawned = false;
                     }
@@ -59,19 +61,19 @@ public class RhythmManager : MonoBehaviour
         if (songNum < songs.Length)
         {
             //Spawn Notes
-            foreach (Note n in songs[songNum].notes)
+            foreach (Note n in notes)
             {
-                if (n.beat%8 == (beat+1.5f)%8 && !n.spawned && beat >= -0.5f)
+                if (n.beat%songs[songNum].length == (beat+1.5f)%songs[songNum].length && !n.spawned && beat >= -0.5f)
                 {
                     if (n.drumType == Note.drums.KICK)
                     {
                         GameObject obj = Instantiate(kickPrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Notes").transform);
-                        obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(830, -460, 0);
+                        obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(836, -460, 0);
                     }
                     else if (n.drumType == Note.drums.SNARE)
                     {
                         GameObject obj = Instantiate(snarePrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Notes").transform);
-                        obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(830, -360, 0);
+                        obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(836, -360, 0);
                     }
                     n.spawned = true;
                     n.played = false; //TODO: figure out a good way to store which notes have been successfully played & reset on each repeat
@@ -91,23 +93,28 @@ public class RhythmManager : MonoBehaviour
         Time.timeScale = 0;
     }
 
-    /*private void CreateNotes(Song s)
-    {
-        int lastComma = 0;
-        for (int i = 0; i < s.kickBeats.Length; i++)
-        {
-            Debug.Log(i + " : " + s.kickBeats[i]);
-            if (s.kickBeats[i] == ',')
-            {
-                Debug.Log("MATCH! " + lastComma + "-" + (i-1) + " = " + s.kickBeats.Substring(lastComma, i-1));
-                Note n = new Note(Note.drums.KICK, float.Parse("1.0"));
-                kicks.Add(n);
-                lastComma = i+1;
-            }
-        }
+    private void CreateNotes(Song s)
+    {   
+        if (s.kickBeats.Length > 0)
+            AddNotes(Note.drums.KICK, s.kickBeats);
+        if (s.snareBeats.Length > 0)
+            AddNotes(Note.drums.SNARE, s.snareBeats);
+        if (s.hiHatBeats.Length > 0)
+            AddNotes(Note.drums.HIHAT, s.hiHatBeats);
         foreach (Note n in notes)
         {
             Debug.Log(n.drumType + " : " + n.beat);
         }
-    }*/
+    }
+
+    private void AddNotes(Note.drums type, string inputArr)
+    {
+        string[] stringNumbers = inputArr.Split(',');
+
+        int[] intNumbers = new int[stringNumbers.Length];
+        for (int i = 0; i < stringNumbers.Length; i++)
+        {
+            notes.Add(new Note(type, float.Parse(stringNumbers[i])));
+        }
+    }
 }
