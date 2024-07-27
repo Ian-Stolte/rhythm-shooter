@@ -91,7 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 200
   type: Snare
-  triggerKey: 304
+  triggerKey: 324
 --- !u!225 &9121055090319370906
 CanvasGroup:
   m_ObjectHideFlags: 0

@@ -11,12 +11,16 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float maxHealth;
     public float health;
-    [SerializeField] private float knockback;
+    //[SerializeField] private float knockback;
+    [SerializeField] private float speed;
 
     [SerializeField] private GameObject kickBullet;
     [SerializeField] private GameObject snareBullet;
     private RhythmManager rhythm;
     [SerializeField] private BoxCollider2D bar;
+
+    private bool gameOver;
+    [SerializeField] private GameObject gameOverTxt;
 
     void Start()
     {
@@ -29,17 +33,17 @@ public class PlayerController : MonoBehaviour
     {
         mouseAngle = GetMouseRot();
         directionIndicator.transform.RotateAround(transform.position, new Vector3(0, 0, 1), mouseAngle - directionIndicator.transform.rotation.eulerAngles.z);
-        /*Bounds b = bar.bounds;
-        if (Input.GetKeyDown(KeyCode.Space) && Physics2D.OverlapBox(b.center, b.extents*2, 0, LayerMask.GetMask("Kick")))
+        if (health <= 0 && !gameOver)
         {
-            FireBullet();
-            Destroy(Physics2D.OverlapBox(b.center, b.extents * 2, 0, LayerMask.GetMask("Kick")).gameObject);
+            GameOver();
         }
-        else if (Input.GetKeyDown(KeyCode.LeftShift) && Physics2D.OverlapBox(b.center, b.extents*2, 0, LayerMask.GetMask("Snare")))
-        {
-            FireBullet();
-            Destroy(Physics2D.OverlapBox(b.center, b.extents*2, 0, LayerMask.GetMask("Snare")).gameObject);
-        }*/
+    }
+
+    void FixedUpdate()
+    {
+        float moveMag = Mathf.Sqrt(Mathf.Pow(Input.GetAxisRaw("Horizontal"), 2) + Mathf.Pow(Input.GetAxisRaw("Vertical"), 2));
+        if (moveMag > 0)
+            transform.position += new Vector3(Input.GetAxisRaw("Horizontal")*speed*0.02f/moveMag, Input.GetAxisRaw("Vertical")*speed*0.02f/moveMag, 0);
     }
 
     private float GetMouseRot()
@@ -47,8 +51,13 @@ public class PlayerController : MonoBehaviour
         Vector3 mousePos = Input.mousePosition;
         Rect canvasRect = GameObject.Find("Canvas").GetComponent<RectTransform>().rect;
         Vector3 canvasScale = GameObject.Find("Canvas").GetComponent<RectTransform>().localScale;
-        float mouseXChange = mousePos.x - 0.5f*canvasRect.width*canvasScale.x;
-        float mouseYChange = mousePos.y - 0.5f*canvasRect.height*canvasScale.y;
+        Camera cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        float camWidth = cam.orthographicSize*cam.aspect;
+        float camHeight = cam.orthographicSize;
+        float playerXPct = (transform.position.x + camWidth) / (camWidth*2);
+        float playerYpct = (transform.position.y + camHeight) / (camHeight*2);
+        float mouseXChange = mousePos.x - playerXPct*canvasRect.width*canvasScale.x;
+        float mouseYChange = mousePos.y - playerYpct*canvasRect.height*canvasScale.y;
         bulletDir = new Vector3(mouseXChange, mouseYChange, 0);
         bulletDir = Vector3.Normalize(bulletDir);
         return(Mathf.Atan2(mouseYChange, mouseXChange) * Mathf.Rad2Deg - 90);
@@ -77,5 +86,12 @@ public class PlayerController : MonoBehaviour
         GameObject.Find("HP Bar").GetComponent<Image>().fillAmount = health/maxHealth;
         //TODO: knockback (without a rigidbody??)
         //GetComponent<Rigidbody2D>().AddForce(Vector3.Normalize(transform.position - g.transform.position)*knockback);
+    }
+
+    private void GameOver()
+    {
+        gameOver = true;
+        gameOverTxt.SetActive(true);
+        Time.timeScale = 0;
     }
 }

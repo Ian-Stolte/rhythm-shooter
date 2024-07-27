@@ -27,7 +27,7 @@ public class EnemyBehavior : MonoBehaviour
         }
 
         attackTimer -= Time.deltaTime;
-        if (Physics2D.OverlapCircle(transform.position, 0.8f, LayerMask.GetMask("Player")) && attackTimer < 0)
+        if (Physics2D.OverlapCircle(transform.position, 0.6f, LayerMask.GetMask("Player")) && attackTimer < 0)
         {
             attackTimer = attackDelay;
             player.GetComponent<PlayerController>().TakeDamage(gameObject, damage);

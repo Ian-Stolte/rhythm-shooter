@@ -13,6 +13,7 @@ public class RhythmManager : MonoBehaviour
 
     [SerializeField] private GameObject kickPrefab;
     [SerializeField] private GameObject snarePrefab;
+    [SerializeField] private GameObject levelClearedTxt;
 
     private AudioManager audio;
 
@@ -46,6 +47,7 @@ public class RhythmManager : MonoBehaviour
                     songNum++;
                     timesRepeated = 0;
                     rawBeat = 0;
+                    StartCoroutine(EndLevel());
                 }
             }
             beat = Mathf.Round(4 * rawBeat) / 4;
@@ -76,6 +78,17 @@ public class RhythmManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    private IEnumerator EndLevel()
+    {
+        yield return new WaitForSeconds(1);
+        for (float i = 0; i < 1; i += 0.01f)
+        {
+            levelClearedTxt.GetComponent<CanvasGroup>().alpha = i;
+            yield return new WaitForSeconds(0.01f);
+        }
+        Time.timeScale = 0;
     }
 
     /*private void CreateNotes(Song s)

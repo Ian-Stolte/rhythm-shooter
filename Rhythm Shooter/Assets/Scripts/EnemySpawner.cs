@@ -21,11 +21,11 @@ public class EnemySpawner : MonoBehaviour
         if (r.songNum < r.songs.Length)
         {
             spawnTimer -= Time.deltaTime;
-            if (spawnTimer < 0 && r.timesRepeated < r.songs[r.songNum].repeats-1) //TODO: better way to cut off as the song is ending
+            if (spawnTimer < 0 && r.timesRepeated < r.songs[r.songNum].repeats) //TODO: better way to cut off as the song is ending
             {
                 spawnTimer = Random.Range(minDelay, maxDelay);
                 Vector3 spawnLoc = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), 0);
-                Instantiate(enemyPrefab, 10*Vector3.Normalize(spawnLoc), Quaternion.identity, GameObject.Find("Enemies").transform);
+                Instantiate(enemyPrefab, /*GameObject.Find("Player").transform.position + */10*Vector3.Normalize(spawnLoc), Quaternion.identity, GameObject.Find("Enemies").transform);
             }
         }
     }
