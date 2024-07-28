@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyBehavior : MonoBehaviour
 {
+    public float maxHealth;
     public float health;
     [SerializeField] private float damage;
     [SerializeField] private float attackDelay;
@@ -16,6 +17,7 @@ public class EnemyBehavior : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player");
+        health = maxHealth;
     }
 
     void Update()
