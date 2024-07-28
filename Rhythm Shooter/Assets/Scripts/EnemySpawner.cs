@@ -8,7 +8,9 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float minDelay;
     [SerializeField] private float maxDelay;
     
-    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private GameObject[] enemyPrefabs;
+    private int type;
+
     private RhythmManager r;
 
     void Start()
@@ -25,7 +27,11 @@ public class EnemySpawner : MonoBehaviour
             {
                 spawnTimer = Random.Range(minDelay, maxDelay);
                 Vector3 spawnLoc = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), 0);
-                Instantiate(enemyPrefab, /*GameObject.Find("Player").transform.position + */10*Vector3.Normalize(spawnLoc), Quaternion.identity, GameObject.Find("Enemies").transform);
+                if (Random.Range(0, 1.0f) > 0.8f)
+                    type = 1;
+                else
+                    type = 0;
+                Instantiate(enemyPrefabs[type], /*GameObject.Find("Player").transform.position + */10*Vector3.Normalize(spawnLoc), Quaternion.identity, GameObject.Find("Enemies").transform);
             }
         }
     }

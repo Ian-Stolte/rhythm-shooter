@@ -14,6 +14,7 @@ public class RhythmManager : MonoBehaviour
 
     [SerializeField] private GameObject kickPrefab;
     [SerializeField] private GameObject snarePrefab;
+    [SerializeField] private GameObject hiHatPrefab;
     [SerializeField] private GameObject levelClearedTxt;
 
     private AudioManager audio;
@@ -73,7 +74,12 @@ public class RhythmManager : MonoBehaviour
                     else if (n.drumType == Note.drums.SNARE)
                     {
                         GameObject obj = Instantiate(snarePrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Notes").transform);
-                        obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(836, -360, 0);
+                        obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(836, -380, 0);
+                    }
+                    else if (n.drumType == Note.drums.HIHAT)
+                    {
+                        GameObject obj = Instantiate(hiHatPrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Notes").transform);
+                        obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(836, -300, 0);
                     }
                     n.spawned = true;
                     n.played = false; //TODO: figure out a good way to store which notes have been successfully played & reset on each repeat

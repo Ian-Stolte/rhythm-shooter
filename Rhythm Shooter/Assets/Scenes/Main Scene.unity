@@ -168,8 +168,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minDelay: 0.5
-  maxDelay: 2
-  enemyPrefab: {fileID: 5002419556152668442, guid: 735572d6e999c4d3fb01c07924c90767, type: 3}
+  maxDelay: 1
+  enemyPrefabs:
+  - {fileID: 5002419556152668442, guid: 735572d6e999c4d3fb01c07924c90767, type: 3}
+  - {fileID: 5002419556152668442, guid: 70d489b09678f484787e22fbd7292732, type: 3}
 --- !u!1 &120882431
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,26 +216,38 @@ MonoBehaviour:
     source: {fileID: 0}
   sfx:
   - name: Missed Kick
-    clip: {fileID: 8300000, guid: 8a4f54cbcc55e43a0adfa6566386a601, type: 3}
-    volume: 0.15
+    clip: {fileID: 8300000, guid: 454e359527f03408882f64989c4a433f, type: 3}
+    volume: 0.1
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Success Kick
-    clip: {fileID: 8300000, guid: ed67d7610a21d4d1fa725759b49d05ba, type: 3}
+    clip: {fileID: 8300000, guid: 454e359527f03408882f64989c4a433f, type: 3}
     volume: 0.5
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Missed Snare
-    clip: {fileID: 8300000, guid: 1c4c42040c15240a09fd4a66f3e35ca5, type: 3}
-    volume: 0.08
+    clip: {fileID: 8300000, guid: 753979395bfc84cf8af4b3c11042df3c, type: 3}
+    volume: 0.1
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Success Snare
-    clip: {fileID: 8300000, guid: 693f7febb0a6b4050b8c35949bd7d9a3, type: 3}
+    clip: {fileID: 8300000, guid: 753979395bfc84cf8af4b3c11042df3c, type: 3}
     volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Missed HiHat
+    clip: {fileID: 8300000, guid: 6d6b1e9ccdd7c469aa805c5a1d9d00c2, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Success HiHat
+    clip: {fileID: 8300000, guid: 6d6b1e9ccdd7c469aa805c5a1d9d00c2, type: 3}
+    volume: 0.3
     pitch: 1
     loop: 0
     source: {fileID: 0}
@@ -672,8 +686,8 @@ RectTransform:
   m_Children:
   - {fileID: 1816124911}
   - {fileID: 2102738538}
-  - {fileID: 1698027224}
   - {fileID: 1346978719}
+  - {fileID: 1698027224}
   - {fileID: 817672745}
   - {fileID: 257627885}
   m_Father: {fileID: 0}
@@ -1124,6 +1138,7 @@ MonoBehaviour:
   speed: 3
   kickBullet: {fileID: 6394425589285459184, guid: d8208b4ebd5dc87488f41f999c7749d2, type: 3}
   snareBullet: {fileID: 6394425589285459184, guid: 5f2c3d2c5bc9a534abbc58d296c4305e, type: 3}
+  hiHatBullet: {fileID: 6394425589285459184, guid: ca46cfdfea9ca41399a123bbca46fd60, type: 3}
   bar: {fileID: 1698027227}
   gameOverTxt: {fileID: 817672744}
 --- !u!61 &1205779456
@@ -1427,7 +1442,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 340, y: -390}
+  m_AnchoredPosition: {x: 340, y: -375}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1698027225
@@ -1443,7 +1458,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.93710685, g: 0.93710685, b: 0.93710685, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1639,6 +1654,7 @@ MonoBehaviour:
       9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15, 15.5, 16, 16.5
   kickPrefab: {fileID: 3693944971279638307, guid: 2e216d8ed8e74254d83a4161e5eeaab1, type: 3}
   snarePrefab: {fileID: 3693944971279638307, guid: 65586eb09d21ea441a52440f1ae83e07, type: 3}
+  hiHatPrefab: {fileID: 3693944971279638307, guid: ddf3c1e245ab540969368d322af986c3, type: 3}
   levelClearedTxt: {fileID: 257627884}
 --- !u!4 &1830557195
 Transform:

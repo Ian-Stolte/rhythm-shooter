@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private GameObject kickBullet;
     [SerializeField] private GameObject snareBullet;
+    [SerializeField] private GameObject hiHatBullet;
     private RhythmManager rhythm;
     [SerializeField] private BoxCollider2D bar;
 
@@ -74,6 +75,10 @@ public class PlayerController : MonoBehaviour
         else if (type == "Snare")
         {
             bullet = Instantiate(snareBullet, transform.position + bulletDir, Quaternion.identity, GameObject.Find("Bullets").transform);
+        }
+        else if (type == "HiHat")
+        {
+            bullet = Instantiate(hiHatBullet, transform.position + bulletDir, Quaternion.identity, GameObject.Find("Bullets").transform);
         }
         if (bullet != null)
             bullet.GetComponent<Bullet>().direction = bulletDir;

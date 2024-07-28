@@ -21,7 +21,7 @@ public class Bullet : MonoBehaviour
         {
             GameObject obj = Physics2D.OverlapCircle(transform.position, 1, LayerMask.GetMask("Enemy")).gameObject;
             obj.GetComponent<EnemyBehavior>().health -= dmg;
-            obj.GetComponent<SpriteRenderer>().color = obj.GetComponent<EnemyBehavior>().dmgColor;
+            obj.GetComponent<SpriteRenderer>().color = obj.GetComponent<EnemyBehavior>().dmgColor; //TODO: slowly change color as enemy takes dmg
             Destroy(gameObject);
         }
     }

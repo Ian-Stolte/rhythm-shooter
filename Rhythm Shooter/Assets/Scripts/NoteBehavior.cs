@@ -31,7 +31,7 @@ public class NoteBehavior : MonoBehaviour
     void FixedUpdate()
     {
         GetComponent<RectTransform>().anchoredPosition -= new Vector2(speed*0.02f, 0);        
-        if (GetComponent<RectTransform>().anchoredPosition.x < barPos.x-10 && !startedFade)
+        if (GetComponent<RectTransform>().anchoredPosition.x < barPos.x && !startedFade)
         {
             StartCoroutine(FadeOut());
         }
