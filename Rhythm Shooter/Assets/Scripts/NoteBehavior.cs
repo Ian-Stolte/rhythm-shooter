@@ -23,7 +23,7 @@ public class NoteBehavior : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(triggerKey) && !played)
+        if (Input.GetKeyDown(triggerKey) && !played && !GameObject.Find("Player").GetComponent<PlayerController>().paused)
         {
             bool correctTiming = false;
             foreach (GameObject o in GameObject.FindGameObjectsWithTag(type))
@@ -61,7 +61,7 @@ public class NoteBehavior : MonoBehaviour
         {
             StartCoroutine(FadeOut(2));
         }
-        if (GetComponent<RectTransform>().anchoredPosition.x < barPos.x && !missedSound)
+        if (GetComponent<RectTransform>().anchoredPosition.x < barPos.x && !missedSound && !GameObject.Find("Player").GetComponent<PlayerController>().paused)
         {
             missedSound = true;
             audio.GetComponent<AudioManager>().Play("Missed " + type);

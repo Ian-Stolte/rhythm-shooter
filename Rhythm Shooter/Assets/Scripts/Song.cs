@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class Song
 {
+    public string name;
     public int tempo;
     public int beatsPerMeasure;
     public int length;

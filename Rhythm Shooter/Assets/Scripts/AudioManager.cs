@@ -20,8 +20,6 @@ public class AudioManager : MonoBehaviour
     [Header("Don't edit")]
     public AudioSource[] audios;
 
-    [HideInInspector] public string currentSong;
-
     void Awake()
     {
         foreach (Sound s in music)
@@ -88,6 +86,8 @@ public class AudioManager : MonoBehaviour
             Debug.Log("Sound: " + name + " not found!");
             return;
         }
+        if (s.source.volume == 0)
+            s.source.volume = 0.6f;
         s.source.Play();
     }
 

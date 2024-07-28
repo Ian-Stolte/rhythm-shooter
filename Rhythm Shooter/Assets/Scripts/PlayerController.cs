@@ -9,10 +9,11 @@ public class PlayerController : MonoBehaviour
     private float mouseAngle;
     private Vector3 bulletDir;
 
-    [SerializeField] private float maxHealth;
+    public float maxHealth;
     public float health;
     //[SerializeField] private float knockback;
     [SerializeField] private float speed;
+    public bool paused;
 
     [SerializeField] private GameObject kickBullet;
     [SerializeField] private GameObject snareBullet;
@@ -20,8 +21,7 @@ public class PlayerController : MonoBehaviour
     private RhythmManager rhythm;
     [SerializeField] private BoxCollider2D bar;
 
-    private bool gameOver;
-    [SerializeField] private GameObject gameOverTxt;
+    [SerializeField] private GameObject gameOver;
 
     void Start()
     {
@@ -32,19 +32,25 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        mouseAngle = GetMouseRot();
-        directionIndicator.transform.RotateAround(transform.position, new Vector3(0, 0, 1), mouseAngle - directionIndicator.transform.rotation.eulerAngles.z);
-        if (health <= 0 && !gameOver)
+        if (!paused)
         {
-            GameOver();
+            mouseAngle = GetMouseRot();
+            directionIndicator.transform.RotateAround(transform.position, new Vector3(0, 0, 1), mouseAngle - directionIndicator.transform.rotation.eulerAngles.z);
+            if (health <= 0)
+            {
+                StartCoroutine(GameOver());
+            }
         }
     }
 
     void FixedUpdate()
     {
-        float moveMag = Mathf.Sqrt(Mathf.Pow(Input.GetAxisRaw("Horizontal"), 2) + Mathf.Pow(Input.GetAxisRaw("Vertical"), 2));
-        if (moveMag > 0)
-            transform.position += new Vector3(Input.GetAxisRaw("Horizontal")*speed*0.02f/moveMag, Input.GetAxisRaw("Vertical")*speed*0.02f/moveMag, 0);
+        if (!paused)
+        {
+            float moveMag = Mathf.Sqrt(Mathf.Pow(Input.GetAxisRaw("Horizontal"), 2) + Mathf.Pow(Input.GetAxisRaw("Vertical"), 2));
+            if (moveMag > 0)
+                transform.position += new Vector3(Input.GetAxisRaw("Horizontal")*speed*0.02f/moveMag, Input.GetAxisRaw("Vertical")*speed*0.02f/moveMag, 0);
+        }
     }
 
     private float GetMouseRot()
@@ -93,10 +99,13 @@ public class PlayerController : MonoBehaviour
         //GetComponent<Rigidbody2D>().AddForce(Vector3.Normalize(transform.position - g.transform.position)*knockback);
     }
 
-    private void GameOver()
+    private IEnumerator GameOver()
     {
-        gameOver = true;
-        gameOverTxt.SetActive(true);
-        Time.timeScale = 0;
+        paused = true;
+        StartCoroutine(GameObject.Find("Audio Manager").GetComponent<AudioManager>().FadeOutAll(2));
+        StartCoroutine(rhythm.Fade(gameOver, false));
+        yield return new WaitForSeconds(1);
+        StartCoroutine(rhythm.Fade(gameOver.transform.GetChild(2).gameObject, false));
+
     }
 }

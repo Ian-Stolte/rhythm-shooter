@@ -10,7 +10,6 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField] private float attackDelay;
     private float attackTimer;
     [SerializeField] private float speed;
-    public Color32 dmgColor;
     
     private GameObject player;
 
