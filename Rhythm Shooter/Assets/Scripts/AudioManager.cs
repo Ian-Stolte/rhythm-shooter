@@ -40,6 +40,18 @@ public class AudioManager : MonoBehaviour
         }
         audios = gameObject.GetComponents<AudioSource>();
     }
+
+    void Start()
+    {
+        foreach (Sound s in music)
+        {
+            float storedVol = s.volume;
+            s.volume = 0;
+            s.source.Play();
+            s.source.Stop();
+            s.volume = storedVol;
+        }
+    }
     
     public IEnumerator FadeOutAll(float duration)
     {

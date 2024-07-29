@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class RhythmManager : MonoBehaviour
 {
-    private float rawBeat;
+    public float rawBeat;
     public float beat;
     public int timesRepeated;
     public int songNum;
@@ -13,6 +13,7 @@ public class RhythmManager : MonoBehaviour
     private List<Note> notes = new List<Note>();
 
     private bool endLevel;
+    private bool resetNotes;
     public bool doingKick;
     public bool doingSnare;
     public bool doingHiHat;
@@ -22,6 +23,7 @@ public class RhythmManager : MonoBehaviour
     [SerializeField] private GameObject hiHatPrefab;
     [SerializeField] private GameObject levelCleared;
     [SerializeField] private GameObject gameOver;
+    [SerializeField] private GameObject mainMenu;
 
     private AudioManager audio;
     private PlayerController player;
@@ -30,24 +32,42 @@ public class RhythmManager : MonoBehaviour
     {
         audio = GameObject.Find("Audio Manager").GetComponent<AudioManager>();
         player = GameObject.Find("Player").GetComponent<PlayerController>();
-        StartSong();
+    }
+
+    public void SetSongNum(int n)
+    {
+        songNum = n;
     }
 
     public void StartSong()
     {
         StartCoroutine(Fade(levelCleared, true));
         StartCoroutine(Fade(gameOver, true));
-        foreach (Transform child in GameObject.Find("Enemies").transform)
-        {
-            Destroy(child.gameObject);
-        }
+        StartCoroutine(Fade(mainMenu, true));
         player.health = player.maxHealth;
+        player.transform.position = new Vector3(0, 0, 0);
         GameObject.Find("HP Bar").GetComponent<Image>().fillAmount = 1;
-        player.paused = false;
         timesRepeated = 0;
-        rawBeat = -4;
+        rawBeat = -7;
+        beat = -7;
         audio.Play(songs[songNum].name);
         CreateNotes(songs[songNum]);
+        player.paused = false;
+    }
+
+    public void ExitToMenu()
+    {
+        StartCoroutine(ExitToMenuCor());
+    }
+
+    private IEnumerator ExitToMenuCor()
+    {
+        GameObject.Find("Fader").GetComponent<Animator>().Play("FadeCross");
+        yield return new WaitForSeconds(0.5f);
+        levelCleared.SetActive(false);
+        gameOver.SetActive(false);
+        mainMenu.GetComponent<CanvasGroup>().alpha = 1;
+        mainMenu.SetActive(true);
     }
 
     void FixedUpdate()
@@ -55,8 +75,8 @@ public class RhythmManager : MonoBehaviour
         //Keep time
         if (songNum < songs.Length && !player.paused)
         {
-            rawBeat += Time.deltaTime * (songs[songNum].tempo / 60.0f);
-            if (rawBeat > songs[songNum].length - 0.125f)
+            rawBeat += 0.02f * (songs[songNum].tempo / 60.0f);
+            if (rawBeat > songs[songNum].length + 0.875f)
             {
                 if (timesRepeated < songs[songNum].repeats-2)
                 {
@@ -74,6 +94,14 @@ public class RhythmManager : MonoBehaviour
                 }
             }
             beat = Mathf.Round(4 * rawBeat) / 4;
+            if (beat == 0 && !resetNotes)
+            {
+                resetNotes = true;
+                foreach (Note n in notes)
+                {
+                    n.spawned = false;
+                }
+            }
         }
     }
 
@@ -84,7 +112,7 @@ public class RhythmManager : MonoBehaviour
             //Spawn Notes
             foreach (Note n in notes)
             {
-                if (n.beat%songs[songNum].length == (beat+1)%songs[songNum].length && !n.spawned && beat >= 0)
+                if (n.beat%songs[songNum].length == (beat+2)%songs[songNum].length && !n.spawned && beat >= -1)
                 {
                     if (n.drumType == Note.drums.KICK && doingKick)
                     {
@@ -114,6 +142,10 @@ public class RhythmManager : MonoBehaviour
         player.paused = true;
         StartCoroutine(Fade(levelCleared));
         yield return new WaitForSeconds(1);
+        foreach (Transform child in GameObject.Find("Enemies").transform)
+        {
+            Destroy(child.gameObject);
+        }
         StartCoroutine(Fade(levelCleared.transform.GetChild(2).gameObject));
     }
 
@@ -136,6 +168,7 @@ public class RhythmManager : MonoBehaviour
 
     private void CreateNotes(Song s)
     {   
+        notes = new List<Note>();
         if (s.kickBeats.Length > 0)
             AddNotes(Note.drums.KICK, s.kickBeats);
         if (s.snareBeats.Length > 0)

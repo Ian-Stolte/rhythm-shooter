@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        paused = true;
         health = maxHealth;
         directionIndicator = GameObject.Find("Direction Indicator");
         rhythm = GameObject.Find("Rhythm Manager").GetComponent<RhythmManager>();
@@ -106,6 +107,9 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(rhythm.Fade(gameOver, false));
         yield return new WaitForSeconds(1);
         StartCoroutine(rhythm.Fade(gameOver.transform.GetChild(2).gameObject, false));
-
+        foreach (Transform child in GameObject.Find("Enemies").transform)
+        {
+            Destroy(child.gameObject);
+        }
     }
 }
