@@ -10,10 +10,11 @@ public class RhythmManager : MonoBehaviour
     public int timesRepeated;
     public int songNum;
     public Song[] songs;
-    private List<Note> notes = new List<Note>();
+    [SerializeField] private List<Note> notes = new List<Note>();
 
     private bool endLevel;
     private bool resetNotes;
+    private bool spawnMeasureBar = true;
     public bool doingKick;
     public bool doingSnare;
     public bool doingHiHat;
@@ -21,6 +22,7 @@ public class RhythmManager : MonoBehaviour
     [SerializeField] private GameObject kickPrefab;
     [SerializeField] private GameObject snarePrefab;
     [SerializeField] private GameObject hiHatPrefab;
+    [SerializeField] private GameObject measureBarPrefab;
     [SerializeField] private GameObject levelCleared;
     [SerializeField] private GameObject gameOver;
     [SerializeField] private GameObject mainMenu;
@@ -48,6 +50,7 @@ public class RhythmManager : MonoBehaviour
         player.transform.position = new Vector3(0, 0, 0);
         GameObject.Find("HP Bar").GetComponent<Image>().fillAmount = 1;
         timesRepeated = 0;
+        spawnMeasureBar = true;
         rawBeat = -7;
         beat = -7;
         audio.Play(songs[songNum].name);
@@ -94,7 +97,7 @@ public class RhythmManager : MonoBehaviour
                 }
             }
             beat = Mathf.Round(4 * rawBeat) / 4;
-            if (beat == 0 && !resetNotes)
+            if (beat == 1 && !resetNotes)
             {
                 resetNotes = true;
                 foreach (Note n in notes)
@@ -102,6 +105,16 @@ public class RhythmManager : MonoBehaviour
                     n.spawned = false;
                 }
             }
+            if (beat%1 == 0 && !spawnMeasureBar)
+            {
+                spawnMeasureBar = true;
+                GameObject obj = Instantiate(measureBarPrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Measure Bars").transform);
+                obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(776, -375, 0);
+                if ((beat+2)%songs[songNum].beatsPerMeasure != 1)
+                    obj.GetComponent<CanvasGroup>().alpha = 0.1f;
+            }
+            else if (beat%1 == 0.5f)
+                spawnMeasureBar = false;
         }
     }
 
@@ -117,17 +130,17 @@ public class RhythmManager : MonoBehaviour
                     if (n.drumType == Note.drums.KICK && doingKick)
                     {
                         GameObject obj = Instantiate(kickPrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Notes").transform);
-                        obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(800, -460, 0);
+                        obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(800, -440, 0);
                     }
                     else if (n.drumType == Note.drums.SNARE && doingSnare)
                     {
                         GameObject obj = Instantiate(snarePrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Notes").transform);
-                        obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(800, -380, 0);
+                        obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(800, -375, 0);
                     }
                     else if (n.drumType == Note.drums.HIHAT && doingHiHat)
                     {
                         GameObject obj = Instantiate(hiHatPrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Notes").transform);
-                        obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(800, -300, 0);
+                        obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(800, -310, 0);
                     }
                     n.spawned = true;
                     n.played = false; //TODO: figure out a good way to store which notes have been successfully played & reset on each repeat

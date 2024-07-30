@@ -285,6 +285,41 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &125004562
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 125004563}
+  m_Layer: 5
+  m_Name: Measure Bars
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &125004563
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125004562}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 485822350}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &128544590
 GameObject:
   m_ObjectHideFlags: 0
@@ -1605,6 +1640,7 @@ RectTransform:
   - {fileID: 1816124911}
   - {fileID: 2102738538}
   - {fileID: 1346978719}
+  - {fileID: 125004563}
   - {fileID: 1698027224}
   - {fileID: 1404335102}
   - {fileID: 1212686995}
@@ -3916,12 +3952,14 @@ MonoBehaviour:
     snareBeats: 2, 4, 6, 8, 8.5, 8.75, 10, 12, 14, 16, 16.25, 16.75
     hiHatBeats: 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9,
       9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15, 15.5, 16, 16.5
+  notes: []
   doingKick: 1
   doingSnare: 1
   doingHiHat: 0
   kickPrefab: {fileID: 3693944971279638307, guid: 2e216d8ed8e74254d83a4161e5eeaab1, type: 3}
   snarePrefab: {fileID: 3693944971279638307, guid: 65586eb09d21ea441a52440f1ae83e07, type: 3}
   hiHatPrefab: {fileID: 3693944971279638307, guid: ddf3c1e245ab540969368d322af986c3, type: 3}
+  measureBarPrefab: {fileID: 7398551297207273712, guid: dc8a70d3deffc44aab27eaebde20e36d, type: 3}
   levelCleared: {fileID: 358491416}
   gameOver: {fileID: 1212686994}
   mainMenu: {fileID: 1404335101}

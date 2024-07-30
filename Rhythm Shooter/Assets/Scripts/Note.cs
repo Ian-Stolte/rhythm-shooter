@@ -13,8 +13,8 @@ public class Note
     }
     public drums drumType;
     public float beat;
-    [HideInInspector] public bool played;
-    [HideInInspector] public bool spawned;
+    public bool played;
+    public bool spawned;
 
     public Note(drums drumType, float beat)
     {
