@@ -43,6 +43,13 @@ public class RhythmManager : MonoBehaviour
 
     public void StartSong()
     {
+        Time.timeScale = 1;
+        foreach (Transform child in GameObject.Find("Notes").transform)
+            Destroy(child.gameObject);
+        foreach (Transform child in GameObject.Find("Measure Bars").transform)
+            Destroy(child.gameObject);
+        foreach (Transform child in GameObject.Find("Enemies").transform)
+            Destroy(child.gameObject);
         StartCoroutine(Fade(levelCleared, true));
         StartCoroutine(Fade(gameOver, true));
         StartCoroutine(Fade(mainMenu, true));
@@ -60,6 +67,7 @@ public class RhythmManager : MonoBehaviour
 
     public void ExitToMenu()
     {
+        Time.timeScale = 1;
         StartCoroutine(ExitToMenuCor());
     }
 
@@ -86,9 +94,7 @@ public class RhythmManager : MonoBehaviour
                     rawBeat -= songs[songNum].length;
                     timesRepeated++;
                     foreach (Note n in notes)
-                    {
                         n.spawned = false;
-                    }
                 }
                 else if (!endLevel)
                 {
@@ -101,9 +107,7 @@ public class RhythmManager : MonoBehaviour
             {
                 resetNotes = true;
                 foreach (Note n in notes)
-                {
                     n.spawned = false;
-                }
             }
             if (beat%1 == 0 && !spawnMeasureBar)
             {
@@ -156,9 +160,7 @@ public class RhythmManager : MonoBehaviour
         StartCoroutine(Fade(levelCleared));
         yield return new WaitForSeconds(1);
         foreach (Transform child in GameObject.Find("Enemies").transform)
-        {
             Destroy(child.gameObject);
-        }
         StartCoroutine(Fade(levelCleared.transform.GetChild(2).gameObject));
     }
 

@@ -42,6 +42,25 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(GameOver());
             }
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!paused)
+            {
+                paused = true;
+                gameOver.SetActive(true);
+                gameOver.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = "Paused";
+                gameOver.GetComponent<CanvasGroup>().alpha = 1;
+                gameOver.transform.GetChild(2).GetComponent<CanvasGroup>().alpha = 1;
+                Time.timeScale = 0;
+            }
+            else if (gameOver.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text == "Paused")
+            {
+                paused = false;
+                gameOver.SetActive(false);
+                gameOver.GetComponent<CanvasGroup>().alpha = 0;
+                Time.timeScale = 1;
+            }
+        }
     }
 
     void FixedUpdate()
@@ -105,6 +124,7 @@ public class PlayerController : MonoBehaviour
         paused = true;
         StartCoroutine(GameObject.Find("Audio Manager").GetComponent<AudioManager>().FadeOutAll(2));
         StartCoroutine(rhythm.Fade(gameOver, false));
+        gameOver.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = "Game Over";
         yield return new WaitForSeconds(1);
         StartCoroutine(rhythm.Fade(gameOver.transform.GetChild(2).gameObject, false));
         foreach (Transform child in GameObject.Find("Enemies").transform)
