@@ -26,6 +26,7 @@ public class RhythmManager : MonoBehaviour
     [SerializeField] private GameObject levelCleared;
     [SerializeField] private GameObject gameOver;
     [SerializeField] private GameObject mainMenu;
+    [SerializeField] private GameObject enemySpawner;
 
     private AudioManager audio;
     private PlayerController player;
@@ -41,25 +42,39 @@ public class RhythmManager : MonoBehaviour
         songNum = n;
     }
 
-    public void StartSong()
+    public void StartSong(bool practice)
     {
         Time.timeScale = 1;
+        if (practice)
+           enemySpawner.SetActive(false);
+        StartCoroutine(StartSongCor());
+    }
+
+    private IEnumerator StartSongCor()
+    {
+        GameObject.Find("Fader").GetComponent<Animator>().Play("FadeCross");
+        yield return new WaitForSeconds(0.5f);
         foreach (Transform child in GameObject.Find("Notes").transform)
             Destroy(child.gameObject);
         foreach (Transform child in GameObject.Find("Measure Bars").transform)
             Destroy(child.gameObject);
         foreach (Transform child in GameObject.Find("Enemies").transform)
             Destroy(child.gameObject);
-        StartCoroutine(Fade(levelCleared, true));
+        foreach (GameObject g in GameObject.FindGameObjectsWithTag("Popup"))
+            g.SetActive(false);
+        levelCleared.SetActive(false);
+        gameOver.SetActive(false);
+        mainMenu.SetActive(false);
+        /*StartCoroutine(Fade(levelCleared, true));
         StartCoroutine(Fade(gameOver, true));
-        StartCoroutine(Fade(mainMenu, true));
+        StartCoroutine(Fade(mainMenu, true));*/
         player.health = player.maxHealth;
         player.transform.position = new Vector3(0, 0, 0);
         GameObject.Find("HP Bar").GetComponent<Image>().fillAmount = 1;
         timesRepeated = 0;
         spawnMeasureBar = true;
-        rawBeat = -7;
-        beat = -7;
+        rawBeat = 1 - 2*songs[songNum].beatsPerMeasure;
+        beat = 1 - 2*songs[songNum].beatsPerMeasure;
         audio.Play(songs[songNum].name);
         CreateNotes(songs[songNum]);
         player.paused = false;
@@ -73,8 +88,10 @@ public class RhythmManager : MonoBehaviour
 
     private IEnumerator ExitToMenuCor()
     {
+        StartCoroutine(GameObject.Find("Audio Manager").GetComponent<AudioManager>().FadeOutAll(1));
         GameObject.Find("Fader").GetComponent<Animator>().Play("FadeCross");
         yield return new WaitForSeconds(0.5f);
+        enemySpawner.SetActive(true);
         levelCleared.SetActive(false);
         gameOver.SetActive(false);
         mainMenu.GetComponent<CanvasGroup>().alpha = 1;
@@ -108,16 +125,18 @@ public class RhythmManager : MonoBehaviour
                 resetNotes = true;
                 foreach (Note n in notes)
                     n.spawned = false;
+                //TODO: fix this! (notes still disappearing)
             }
-            if (beat%1 == 0 && !spawnMeasureBar)
+            if (Mathf.Abs(beat)%1 == 0 && !spawnMeasureBar)
             {
                 spawnMeasureBar = true;
                 GameObject obj = Instantiate(measureBarPrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Measure Bars").transform);
                 obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(776, -375, 0);
+                obj.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "" + ((beat+1+2*songs[songNum].beatsPerMeasure)%songs[songNum].beatsPerMeasure+1);
                 if ((beat+2)%songs[songNum].beatsPerMeasure != 1)
                     obj.GetComponent<CanvasGroup>().alpha = 0.1f;
             }
-            else if (beat%1 == 0.5f)
+            else if (Mathf.Abs(beat)%1 == 0.5f)
                 spawnMeasureBar = false;
         }
     }

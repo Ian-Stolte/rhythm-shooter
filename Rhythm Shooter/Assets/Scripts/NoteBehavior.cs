@@ -28,10 +28,10 @@ public class NoteBehavior : MonoBehaviour
             bool correctTiming = false;
             foreach (GameObject o in GameObject.FindGameObjectsWithTag(type))
             {
-                if (Mathf.Abs(o.GetComponent<RectTransform>().anchoredPosition.x - barPos.x) < 30)
+                if (Mathf.Abs(o.GetComponent<RectTransform>().anchoredPosition.x - barPos.x) < 40)
                     correctTiming = true;
             }
-            if (Mathf.Abs(GetComponent<RectTransform>().anchoredPosition.x - barPos.x) < 30)
+            if (Mathf.Abs(GetComponent<RectTransform>().anchoredPosition.x - barPos.x) < 40)
             {
                 played = true;
                 GameObject.Find("Player").GetComponent<PlayerController>().FireBullet(type);
@@ -39,7 +39,7 @@ public class NoteBehavior : MonoBehaviour
                 audio.Play("Success " + type); //TODO: find some way to play it at the right time, even if the input is a little off
                 StartCoroutine(FadeOut(1));
             }
-            else if (GetComponent<RectTransform>().anchoredPosition.x - barPos.x < 100 && !correctTiming)
+            else if (GetComponent<RectTransform>().anchoredPosition.x - barPos.x < 80 && !correctTiming)
             {
                 played = true;
                 GetComponent<CanvasGroup>().alpha = 0.4f;

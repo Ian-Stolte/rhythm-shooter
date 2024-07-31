@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour
             if (!paused)
             {
                 paused = true;
+                //TODO: pause current song
                 gameOver.SetActive(true);
                 gameOver.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = "Paused";
                 gameOver.GetComponent<CanvasGroup>().alpha = 1;
@@ -56,6 +57,7 @@ public class PlayerController : MonoBehaviour
             else if (gameOver.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text == "Paused")
             {
                 paused = false;
+                //TODO: resume current song
                 gameOver.SetActive(false);
                 gameOver.GetComponent<CanvasGroup>().alpha = 0;
                 Time.timeScale = 1;
@@ -122,14 +124,12 @@ public class PlayerController : MonoBehaviour
     private IEnumerator GameOver()
     {
         paused = true;
-        StartCoroutine(GameObject.Find("Audio Manager").GetComponent<AudioManager>().FadeOutAll(2));
+        StartCoroutine(GameObject.Find("Audio Manager").GetComponent<AudioManager>().FadeOutAll(1));
         StartCoroutine(rhythm.Fade(gameOver, false));
         gameOver.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = "Game Over";
         yield return new WaitForSeconds(1);
         StartCoroutine(rhythm.Fade(gameOver.transform.GetChild(2).gameObject, false));
         foreach (Transform child in GameObject.Find("Enemies").transform)
-        {
             Destroy(child.gameObject);
-        }
     }
 }
