@@ -53,6 +53,12 @@ public class RhythmManager : MonoBehaviour
     private IEnumerator StartSongCor()
     {
         GameObject.Find("Fader").GetComponent<Animator>().Play("FadeCross");
+        if (GameObject.Find("Kick Checkbox") != null)
+            doingKick = GameObject.Find("Kick Checkbox").GetComponent<Checkbox>().isChecked;
+        if (GameObject.Find("Snare Checkbox") != null)
+            doingSnare = GameObject.Find("Snare Checkbox").GetComponent<Checkbox>().isChecked;
+        if (GameObject.Find("HiHat Checkbox") != null)
+            doingHiHat = GameObject.Find("HiHat Checkbox").GetComponent<Checkbox>().isChecked;
         yield return new WaitForSeconds(0.5f);
         foreach (Transform child in GameObject.Find("Notes").transform)
             Destroy(child.gameObject);
@@ -72,6 +78,7 @@ public class RhythmManager : MonoBehaviour
         player.transform.position = new Vector3(0, 0, 0);
         GameObject.Find("HP Bar").GetComponent<Image>().fillAmount = 1;
         timesRepeated = 0;
+        endLevel = false;
         spawnMeasureBar = true;
         rawBeat = 1 - 2*songs[songNum].beatsPerMeasure;
         beat = 1 - 2*songs[songNum].beatsPerMeasure;

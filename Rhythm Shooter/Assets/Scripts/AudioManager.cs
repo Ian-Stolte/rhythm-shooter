@@ -20,6 +20,8 @@ public class AudioManager : MonoBehaviour
     [Header("Don't edit")]
     public AudioSource[] audios;
 
+    public Sound currentSong;
+
     void Awake()
     {
         foreach (Sound s in music)
@@ -92,7 +94,11 @@ public class AudioManager : MonoBehaviour
     {
         Sound s = Array.Find(sfx, sound => sound.name == name);
         if (s == null)
+        {
             s = Array.Find(music, sound => sound.name == name);
+            if (s != null)
+                currentSong = s;
+        }
         if (s == null)
         {
             Debug.Log("Sound: " + name + " not found!");

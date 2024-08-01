@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
             if (!paused)
             {
                 paused = true;
-                //TODO: pause current song
+                GameObject.Find("Audio Manager").GetComponent<AudioManager>().currentSong.source.Pause();
                 gameOver.SetActive(true);
                 gameOver.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = "Paused";
                 gameOver.GetComponent<CanvasGroup>().alpha = 1;
@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
             else if (gameOver.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text == "Paused")
             {
                 paused = false;
-                //TODO: resume current song
+                GameObject.Find("Audio Manager").GetComponent<AudioManager>().currentSong.source.Play();
                 gameOver.SetActive(false);
                 gameOver.GetComponent<CanvasGroup>().alpha = 0;
                 Time.timeScale = 1;
