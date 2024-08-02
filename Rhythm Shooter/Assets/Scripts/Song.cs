@@ -10,6 +10,7 @@ public class Song
     public int beatsPerMeasure;
     public int length;
     public int repeats;
+    public bool unlocked;
     //public Note[] notes;
     public string kickBeats;
     public string snareBeats;

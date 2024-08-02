@@ -10,6 +10,7 @@ public class RhythmManager : MonoBehaviour
     public int timesRepeated;
     public int songNum;
     public Song[] songs;
+    public int songsUnlocked;
     [SerializeField] private List<Note> notes = new List<Note>();
 
     private bool endLevel;
@@ -27,6 +28,12 @@ public class RhythmManager : MonoBehaviour
     [SerializeField] private GameObject gameOver;
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject enemySpawner;
+
+    private bool snareUnlocked;
+    [SerializeField] private GameObject snareCheckbox;
+    private bool fightUnlocked;
+    [SerializeField] private GameObject fightButton;
+    
 
     private AudioManager audio;
     private PlayerController player;
@@ -103,6 +110,10 @@ public class RhythmManager : MonoBehaviour
         gameOver.SetActive(false);
         mainMenu.GetComponent<CanvasGroup>().alpha = 1;
         mainMenu.SetActive(true);
+        for (int i = 0; i < songs.Length; i++)
+        {
+            GameObject.Find("Song Buttons").transform.GetChild(i).GetChild(0).GetComponent<Button>().interactable = songs[i].unlocked;
+        }
     }
 
     void FixedUpdate()
@@ -184,6 +195,18 @@ public class RhythmManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         player.paused = true;
         StartCoroutine(Fade(levelCleared));
+        if (fightUnlocked && enemySpawner.activeSelf)
+        {
+            songsUnlocked++;
+            songs[songsUnlocked].unlocked = true;
+        }
+        if (snareUnlocked)
+        {
+            fightUnlocked = true;
+            fightButton.SetActive(true);
+        }
+        snareUnlocked = true;
+        snareCheckbox.SetActive(true);
         yield return new WaitForSeconds(1);
         foreach (Transform child in GameObject.Find("Enemies").transform)
             Destroy(child.gameObject);
