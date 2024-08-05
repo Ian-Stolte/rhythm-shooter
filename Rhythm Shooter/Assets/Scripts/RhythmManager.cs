@@ -54,10 +54,10 @@ public class RhythmManager : MonoBehaviour
         Time.timeScale = 1;
         if (practice)
            enemySpawner.SetActive(false);
-        StartCoroutine(StartSongCor());
+        StartCoroutine(SetUpSong());
     }
 
-    private IEnumerator StartSongCor()
+    private IEnumerator SetUpSong()
     {
         GameObject.Find("Fader").GetComponent<Animator>().Play("FadeCross");
         if (GameObject.Find("Kick Checkbox") != null)
@@ -89,6 +89,19 @@ public class RhythmManager : MonoBehaviour
         spawnMeasureBar = true;
         rawBeat = 1 - 2*songs[songNum].beatsPerMeasure;
         beat = 1 - 2*songs[songNum].beatsPerMeasure;
+        if (!snareUnlocked)
+        {
+            yield return new WaitForSeconds(0.5f);
+            StartCoroutine(GameObject.Find("First Tutorial").GetComponent<Tutorial>().PlayTutorial());
+        }
+        else
+        {
+            PlaySong();
+        }
+    }
+
+    public void PlaySong()
+    {
         audio.Play(songs[songNum].name);
         CreateNotes(songs[songNum]);
         player.paused = false;
