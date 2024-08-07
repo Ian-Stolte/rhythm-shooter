@@ -56,15 +56,18 @@ public class NoteBehavior : MonoBehaviour
 
     void FixedUpdate()
     {
-        GetComponent<RectTransform>().anchoredPosition -= new Vector2(speed*0.02f, 0);      
-        if (GetComponent<RectTransform>().anchoredPosition.x < barPos.x-40 && !startedFade)
+        if (!GameObject.Find("Player").GetComponent<PlayerController>().paused)
         {
-            StartCoroutine(FadeOut(2));
-        }
-        if (GetComponent<RectTransform>().anchoredPosition.x < barPos.x && !missedSound && !GameObject.Find("Player").GetComponent<PlayerController>().paused)
-        {
-            missedSound = true;
-            audio.GetComponent<AudioManager>().Play("Missed " + type);
+            GetComponent<RectTransform>().anchoredPosition -= new Vector2(speed*0.02f, 0);      
+            if (GetComponent<RectTransform>().anchoredPosition.x < barPos.x-40 && !startedFade)
+            {
+                StartCoroutine(FadeOut(2));
+            }
+            if (GetComponent<RectTransform>().anchoredPosition.x < barPos.x && !missedSound && !GameObject.Find("Player").GetComponent<PlayerController>().paused)
+            {
+                missedSound = true;
+                audio.GetComponent<AudioManager>().Play("Missed " + type);
+            }
         }
     }
 

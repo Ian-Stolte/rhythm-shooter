@@ -5,6 +5,7 @@ using UnityEngine;
 public class ShowPopup : MonoBehaviour
 {
     [SerializeField] private GameObject popup;
+    [SerializeField] private GameObject exclamationPt;
 
     public void Show()
     {
@@ -14,6 +15,8 @@ public class ShowPopup : MonoBehaviour
             //maybe play an animation
         }
         popup.SetActive(true);
+        if (exclamationPt != null)
+            exclamationPt.SetActive(false);
         //maybe play an animation
     }
 }

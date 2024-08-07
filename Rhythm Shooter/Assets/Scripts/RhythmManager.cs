@@ -33,10 +33,12 @@ public class RhythmManager : MonoBehaviour
     [SerializeField] private GameObject snareCheckbox;
     private bool fightUnlocked;
     [SerializeField] private GameObject fightButton;
-    
+    private bool errorTutorial;
+    [SerializeField] private GameObject exclamationPt;
 
     private AudioManager audio;
     private PlayerController player;
+
 
     void Start()
     {
@@ -66,6 +68,10 @@ public class RhythmManager : MonoBehaviour
             doingSnare = GameObject.Find("Snare Checkbox").GetComponent<Checkbox>().isChecked;
         if (GameObject.Find("HiHat Checkbox") != null)
             doingHiHat = GameObject.Find("HiHat Checkbox").GetComponent<Checkbox>().isChecked;
+        if (snareUnlocked)
+            snareCheckbox.transform.GetChild(4).gameObject.SetActive(false);
+        if (fightUnlocked)
+            fightButton.transform.GetChild(1).gameObject.SetActive(false);
         yield return new WaitForSeconds(0.5f);
         foreach (Transform child in GameObject.Find("Notes").transform)
             Destroy(child.gameObject);
@@ -78,9 +84,6 @@ public class RhythmManager : MonoBehaviour
         levelCleared.SetActive(false);
         gameOver.SetActive(false);
         mainMenu.SetActive(false);
-        /*StartCoroutine(Fade(levelCleared, true));
-        StartCoroutine(Fade(gameOver, true));
-        StartCoroutine(Fade(mainMenu, true));*/
         player.health = player.maxHealth;
         player.transform.position = new Vector3(0, 0, 0);
         GameObject.Find("HP Bar").GetComponent<Image>().fillAmount = 1;
@@ -93,6 +96,16 @@ public class RhythmManager : MonoBehaviour
         {
             yield return new WaitForSeconds(0.5f);
             StartCoroutine(GameObject.Find("First Tutorial").GetComponent<Tutorial>().PlayTutorial());
+        }
+        else if (!fightUnlocked)
+        {
+            yield return new WaitForSeconds(0.5f);
+            StartCoroutine(GameObject.Find("Snare Tutorial").GetComponent<Tutorial>().PlayTutorial());
+        }
+        else if (!songs[1].unlocked)
+        {
+            yield return new WaitForSeconds(0.5f);
+            StartCoroutine(GameObject.Find("Fight Tutorial").GetComponent<Tutorial>().PlayTutorial());
         }
         else
         {
@@ -169,6 +182,12 @@ public class RhythmManager : MonoBehaviour
             }
             else if (Mathf.Abs(beat)%1 == 0.5f)
                 spawnMeasureBar = false;
+
+            if (timesRepeated == 4 && beat == 1.5f && !snareUnlocked && !errorTutorial)
+            {
+                errorTutorial = true;
+                StartCoroutine(GameObject.Find("Error Tutorial").GetComponent<Tutorial>().PlayTutorial());
+            }
         }
     }
 
@@ -213,6 +232,8 @@ public class RhythmManager : MonoBehaviour
             songsUnlocked++;
             songs[songsUnlocked].unlocked = true;
         }
+        if (!fightUnlocked)
+            exclamationPt.SetActive(true);
         if (snareUnlocked)
         {
             fightUnlocked = true;

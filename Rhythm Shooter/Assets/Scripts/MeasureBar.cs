@@ -8,8 +8,11 @@ public class MeasureBar : MonoBehaviour
     
     void FixedUpdate()
     {
-        GetComponent<RectTransform>().anchoredPosition -= new Vector2(speed*0.02f, 0);      
-        if (GetComponent<RectTransform>().anchoredPosition.x < GameObject.Find("Bar").GetComponent<RectTransform>().anchoredPosition.x)
-            Destroy(gameObject);
+        if (!GameObject.Find("Player").GetComponent<PlayerController>().paused)
+        {
+            GetComponent<RectTransform>().anchoredPosition -= new Vector2(speed*0.02f, 0);      
+            if (GetComponent<RectTransform>().anchoredPosition.x < GameObject.Find("Bar").GetComponent<RectTransform>().anchoredPosition.x)
+                Destroy(gameObject);
+        }
     }
 }
