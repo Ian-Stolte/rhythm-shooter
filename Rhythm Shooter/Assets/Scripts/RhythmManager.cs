@@ -79,6 +79,8 @@ public class RhythmManager : MonoBehaviour
             Destroy(child.gameObject);
         foreach (Transform child in GameObject.Find("Enemies").transform)
             Destroy(child.gameObject);
+        foreach (Transform child in GameObject.Find("Bullets").transform)
+            Destroy(child.gameObject);
         foreach (GameObject g in GameObject.FindGameObjectsWithTag("Popup"))
             g.SetActive(false);
         levelCleared.SetActive(false);
@@ -139,6 +141,10 @@ public class RhythmManager : MonoBehaviour
         for (int i = 0; i < songs.Length; i++)
         {
             GameObject.Find("Song Buttons").transform.GetChild(i).GetChild(0).GetComponent<Button>().interactable = songs[i].unlocked;
+            if (!songs[i].unlocked)
+                GameObject.Find("Song Buttons").transform.GetChild(i).GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().color = new Color32(255, 255, 255, 50);
+            else
+                GameObject.Find("Song Buttons").transform.GetChild(i).GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().color = new Color32(255, 255, 255, 255);
         }
     }
 

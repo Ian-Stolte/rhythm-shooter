@@ -41,6 +41,8 @@ public class AudioManager : MonoBehaviour
             s.source.loop = s.loop;
         }
         audios = gameObject.GetComponents<AudioSource>();
+        Sound song = Array.Find(music, sound => sound.name == "Laid-Back Guitar");
+        currentSong = song;
     }
 
     void Start()
