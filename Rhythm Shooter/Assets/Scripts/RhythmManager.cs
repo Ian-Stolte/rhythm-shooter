@@ -29,6 +29,7 @@ public class RhythmManager : MonoBehaviour
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject enemySpawner;
 
+    [SerializeField] private bool skipTutorial;
     private bool snareUnlocked;
     [SerializeField] private GameObject snareCheckbox;
     private bool fightUnlocked;
@@ -94,17 +95,17 @@ public class RhythmManager : MonoBehaviour
         spawnMeasureBar = true;
         rawBeat = 1 - 2*songs[songNum].beatsPerMeasure;
         beat = 1 - 2*songs[songNum].beatsPerMeasure;
-        if (!snareUnlocked)
+        if (!snareUnlocked && !skipTutorial)
         {
             yield return new WaitForSeconds(0.5f);
             StartCoroutine(GameObject.Find("First Tutorial").GetComponent<Tutorial>().PlayTutorial());
         }
-        else if (!fightUnlocked)
+        else if (!fightUnlocked && !skipTutorial)
         {
             yield return new WaitForSeconds(0.5f);
             StartCoroutine(GameObject.Find("Snare Tutorial").GetComponent<Tutorial>().PlayTutorial());
         }
-        else if (!songs[1].unlocked)
+        else if (!songs[1].unlocked && !skipTutorial)
         {
             yield return new WaitForSeconds(0.5f);
             StartCoroutine(GameObject.Find("Fight Tutorial").GetComponent<Tutorial>().PlayTutorial());
@@ -189,7 +190,7 @@ public class RhythmManager : MonoBehaviour
             else if (Mathf.Abs(beat)%1 == 0.5f)
                 spawnMeasureBar = false;
 
-            if (timesRepeated == 4 && beat == 1.5f && !snareUnlocked && !errorTutorial)
+            if (timesRepeated == 4 && beat == 1.5f && !snareUnlocked && !errorTutorial && !skipTutorial)
             {
                 errorTutorial = true;
                 StartCoroutine(GameObject.Find("Error Tutorial").GetComponent<Tutorial>().PlayTutorial());
@@ -256,7 +257,10 @@ public class RhythmManager : MonoBehaviour
     public IEnumerator Fade(GameObject g, bool fadingOut = false) //could add duration
     {
         if (!fadingOut)
+        {
             g.SetActive(true);
+            g.GetComponent<CanvasGroup>().alpha = 0;
+        }
         float start = g.GetComponent<CanvasGroup>().alpha;
         for (float i = 0; i < 1; i += 0.01f)
         {

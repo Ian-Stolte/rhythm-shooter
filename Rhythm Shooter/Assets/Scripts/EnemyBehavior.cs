@@ -11,6 +11,9 @@ public class EnemyBehavior : MonoBehaviour
     private float attackTimer;
     [SerializeField] private float speed;
     
+    public GameObject kickDmg;
+    public GameObject snareDmg;
+
     private GameObject player;
 
     void Start()

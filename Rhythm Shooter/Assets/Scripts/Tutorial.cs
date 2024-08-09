@@ -15,7 +15,7 @@ public class Tutorial : MonoBehaviour
             child.gameObject.SetActive(true);
             if (child.transform.childCount > 1)
             {
-                yield return new WaitForSeconds(1.5f);
+                yield return new WaitForSeconds(1);
                 child.GetChild(1).gameObject.SetActive(true);
             }
             yield return new WaitUntil(() => Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space));

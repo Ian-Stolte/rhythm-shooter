@@ -326,8 +326,8 @@ MonoBehaviour:
     maxDelay: 5
     enemyPcts:
     - 1
-  - minDelay: 0.5
-    maxDelay: 2
+  - minDelay: 4
+    maxDelay: 10
     enemyPcts:
     - 1
   - minDelay: 0.3
@@ -3769,7 +3769,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 362855012}
   m_OnClick:
     m_PersistentCalls:
@@ -14072,7 +14072,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1722940075}
   m_OnClick:
     m_PersistentCalls:
@@ -14566,7 +14566,7 @@ MonoBehaviour:
     beatsPerMeasure: 4
     length: 16
     repeats: 11
-    unlocked: 0
+    unlocked: 1
     kickBeats: 1, 2, 3, 4, 4.5, 5, 6, 7, 7.5, 8, 9, 10, 11, 12, 12.5, 13, 14, 15,
       15.5, 16, 16.5
     snareBeats: 2, 4, 6, 8, 8.5, 8.75, 10, 12, 14, 16, 16.25, 16.75
@@ -14585,6 +14585,7 @@ MonoBehaviour:
   gameOver: {fileID: 1212686994}
   mainMenu: {fileID: 1404335101}
   enemySpawner: {fileID: 31294784}
+  skipTutorial: 1
   snareCheckbox: {fileID: 2010241357}
   fightButton: {fileID: 1054932308}
   exclamationPt: {fileID: 753915897}

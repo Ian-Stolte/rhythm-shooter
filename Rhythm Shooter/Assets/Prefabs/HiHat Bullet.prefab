@@ -98,9 +98,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a22f666c7dc44e84892610a560811d43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 2
   direction: {x: 0, y: 0, z: 0}
   speed: 0.1
-  dmg: 1
+  dmg: 11
+  dmgTxtPrefab: {fileID: 6102596305022964316, guid: 42b09cb438d4e459a88baadd57f70f9d, type: 3}
 --- !u!58 &943424896607486152
 CircleCollider2D:
   m_ObjectHideFlags: 0
