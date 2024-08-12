@@ -12,7 +12,7 @@ public class EnemySpawner : MonoBehaviour
         public float[] enemyPcts;
     }
 
-    private float spawnTimer = 3;
+    [SerializeField] private float spawnTimer = 3;
     [SerializeField] private GameObject[] enemyPrefabs;
     [SerializeField] private EnemyLayout[] enemies;
     private int type;
@@ -31,7 +31,10 @@ public class EnemySpawner : MonoBehaviour
             spawnTimer -= Time.deltaTime;
             if (spawnTimer < 0 && r.timesRepeated < r.songs[r.songNum].repeats) //TODO: better way to cut off as the song is ending
             {
-                spawnTimer = Random.Range(enemies[r.songNum].minDelay, enemies[r.songNum].maxDelay);
+                int numEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length;
+                if (numEnemies == 0)
+                    numEnemies = 1;
+                spawnTimer = Random.Range(enemies[r.songNum].minDelay * (numEnemies/5.0f), enemies[r.songNum].maxDelay * (numEnemies/5.0f));
                 Vector3 spawnLoc = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), 0);
                 float typeVal = Random.Range(0, 1.0f);
                 float runningPct = 0;

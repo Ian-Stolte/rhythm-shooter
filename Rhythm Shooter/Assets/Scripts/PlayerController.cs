@@ -117,6 +117,7 @@ public class PlayerController : MonoBehaviour
         health -= dmg;
         GetComponent<Animator>().Play("TakeDamage");
         GameObject.Find("HP Bar").GetComponent<Image>().fillAmount = health/maxHealth;
+        rhythm.multiplier = 1;
         //TODO: knockback (without a rigidbody??)
         //GetComponent<Rigidbody2D>().AddForce(Vector3.Normalize(transform.position - g.transform.position)*knockback);
     }

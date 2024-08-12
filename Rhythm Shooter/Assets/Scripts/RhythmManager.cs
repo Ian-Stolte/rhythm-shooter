@@ -20,6 +20,11 @@ public class RhythmManager : MonoBehaviour
     public bool doingSnare;
     public bool doingHiHat;
 
+    [SerializeField] TMPro.TextMeshProUGUI scoreTxt;
+    public float score;
+    [SerializeField] TMPro.TextMeshProUGUI multiplierTxt;
+    public float multiplier;
+
     [SerializeField] private GameObject kickPrefab;
     [SerializeField] private GameObject snarePrefab;
     [SerializeField] private GameObject hiHatPrefab;
@@ -95,6 +100,8 @@ public class RhythmManager : MonoBehaviour
         spawnMeasureBar = true;
         rawBeat = 1 - 2*songs[songNum].beatsPerMeasure;
         beat = 1 - 2*songs[songNum].beatsPerMeasure;
+        score = 0;
+        multiplier = 1;
         if (!snareUnlocked && !skipTutorial)
         {
             yield return new WaitForSeconds(0.5f);
@@ -202,6 +209,9 @@ public class RhythmManager : MonoBehaviour
     {
         if (songNum < songs.Length)
         {
+            scoreTxt.text = "" + Mathf.Round(score);
+            multiplierTxt.text = "x " + Mathf.Round(10*multiplier)/10.0f;
+
             //Spawn Notes
             foreach (Note n in notes)
             {
@@ -234,6 +244,7 @@ public class RhythmManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         player.paused = true;
         StartCoroutine(Fade(levelCleared));
+        levelCleared.transform.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text = "Score: <b><color=#67A5FF>" + score + "</color></b>";
         if (fightUnlocked && enemySpawner.activeSelf)
         {
             songsUnlocked++;
@@ -251,7 +262,7 @@ public class RhythmManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         foreach (Transform child in GameObject.Find("Enemies").transform)
             Destroy(child.gameObject);
-        StartCoroutine(Fade(levelCleared.transform.GetChild(2).gameObject));
+        StartCoroutine(Fade(levelCleared.transform.GetChild(3).gameObject));
     }
 
     public IEnumerator Fade(GameObject g, bool fadingOut = false) //could add duration

@@ -10,6 +10,7 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField] private float attackDelay;
     private float attackTimer;
     [SerializeField] private float speed;
+    [SerializeField] private int score;
     
     public GameObject kickDmg;
     public GameObject snareDmg;
@@ -26,6 +27,12 @@ public class EnemyBehavior : MonoBehaviour
     {
         if (health <= 0)
         {
+            RhythmManager rhythm = GameObject.Find("Rhythm Manager").GetComponent<RhythmManager>();
+            rhythm.score += score*rhythm.multiplier;
+            if (rhythm.multiplier < 4)
+            {
+                rhythm.multiplier += 0.2f;
+            }
             Destroy(gameObject);
             //and maybe play a sound or do a particle effect
         }
