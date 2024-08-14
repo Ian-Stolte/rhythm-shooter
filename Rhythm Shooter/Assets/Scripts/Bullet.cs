@@ -30,7 +30,7 @@ public class Bullet : MonoBehaviour
             }
             else if (Physics2D.OverlapCircle(transform.position, 0.5f, LayerMask.GetMask("Enemy")))
             {
-                GameObject obj = Physics2D.OverlapCircle(transform.position, 1, LayerMask.GetMask("Enemy")).gameObject;
+                GameObject obj = Physics2D.OverlapCircle(transform.position, 0.5f, LayerMask.GetMask("Enemy")).gameObject;
                 obj.GetComponent<EnemyBehavior>().health -= dmg;
                 DamageNumbers(obj);
                 Color c = obj.GetComponent<SpriteRenderer>().color;
@@ -44,22 +44,27 @@ public class Bullet : MonoBehaviour
     private void DamageNumbers(GameObject enemy)
     {
         GameObject dmgTxt = null;
-        /*if (type == bulletType.KICK)
-        {*/
-            if (enemy.GetComponent<EnemyBehavior>().kickDmg != null)
-            {
-                if (enemy.GetComponent<EnemyBehavior>().kickDmg.GetComponent<DestroyAfterDelay>().timer > 0.3f)
-                    dmgTxt = enemy.GetComponent<EnemyBehavior>().kickDmg;   
-            }
-            if (dmgTxt == null)
-            {
-                GameObject obj = Instantiate(dmgTxtPrefab, enemy.transform.position + new Vector3(-0.5f, 0.8f, 0), Quaternion.identity);
-                enemy.GetComponent<EnemyBehavior>().kickDmg = obj;
-                obj.GetComponent<TMPro.TextMeshPro>().text = "" + dmg;
-                //obj.GetComponent<TMPro.TextMeshPro>().color = GetComponent<SpriteRenderer>().color;
-            }
-        /*}
-        else if (type == bulletType.SNARE)
+        if (enemy.GetComponent<EnemyBehavior>().dmgTxt != null)
+        {
+            if (enemy.GetComponent<EnemyBehavior>().dmgTxt.GetComponent<DestroyAfterDelay>().timer > 0.3f)
+                dmgTxt = enemy.GetComponent<EnemyBehavior>().dmgTxt;   
+        }
+        if (dmgTxt == null)
+        {
+            GameObject obj = Instantiate(dmgTxtPrefab, enemy.transform.position + new Vector3(-0.5f, 0.8f, 0), Quaternion.identity);
+            enemy.GetComponent<EnemyBehavior>().dmgTxt = obj;
+            obj.GetComponent<TMPro.TextMeshPro>().text = "" + dmg;
+            //obj.GetComponent<TMPro.TextMeshPro>().color = GetComponent<SpriteRenderer>().color;
+        }
+        else
+        {
+            dmgTxt.GetComponent<TMPro.TextMeshPro>().text = "" + (int.Parse(dmgTxt.GetComponent<TMPro.TextMeshPro>().text) + dmg);
+            //dmgTxt.GetComponent<DestroyAfterDelay>().timer = dmgTxt.GetComponent<DestroyAfterDelay>().lifetime;
+            //dmgTxt.GetComponent<Animator>().Play("Text Fade");
+        }
+
+        //For multiple dmg txts
+        /*else if (type == bulletType.SNARE)
         {
             if (enemy.GetComponent<EnemyBehavior>().snareDmg != null)
             {
@@ -74,11 +79,5 @@ public class Bullet : MonoBehaviour
                 obj.GetComponent<TMPro.TextMeshPro>().color = GetComponent<SpriteRenderer>().color;
             }
         }*/
-        if (dmgTxt != null)
-        {
-            dmgTxt.GetComponent<TMPro.TextMeshPro>().text = "" + (int.Parse(dmgTxt.GetComponent<TMPro.TextMeshPro>().text) + dmg);
-            //dmgTxt.GetComponent<DestroyAfterDelay>().timer = dmgTxt.GetComponent<DestroyAfterDelay>().lifetime;
-            //dmgTxt.GetComponent<Animator>().Play("Text Fade");
-        }
     }
 }

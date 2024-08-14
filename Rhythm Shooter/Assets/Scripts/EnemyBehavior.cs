@@ -9,11 +9,12 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField] private float damage;
     [SerializeField] private float attackDelay;
     private float attackTimer;
+    [SerializeField] private bool ranged;
+    [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private float speed;
     [SerializeField] private int score;
     
-    public GameObject kickDmg;
-    public GameObject snareDmg;
+    public GameObject dmgTxt;
 
     private GameObject player;
 
@@ -38,15 +39,34 @@ public class EnemyBehavior : MonoBehaviour
         }
 
         attackTimer -= Time.deltaTime;
-        if (Physics2D.OverlapCircle(transform.position, 0.6f, LayerMask.GetMask("Player")) && attackTimer < 0)
+        if (!ranged)
         {
-            attackTimer = attackDelay;
-            player.GetComponent<PlayerController>().TakeDamage(gameObject, damage);
+            if (Physics2D.OverlapCircle(transform.position, 0.6f, LayerMask.GetMask("Player")) && attackTimer < 0)
+            {
+                attackTimer = attackDelay;
+                player.GetComponent<PlayerController>().TakeDamage(gameObject, damage);
+            }
+        }
+        else
+        {
+            if (attackTimer < 0 && Vector3.Distance(player.transform.position, transform.position) <= 6)
+            {
+                GetComponent<Animator>().Play("RangedEnemyAttack");
+                attackTimer = attackDelay;
+                Vector3 playerDir = Vector3.Normalize(player.transform.position - transform.position);
+                GameObject obj = Instantiate(bulletPrefab, transform.position + playerDir, Quaternion.identity, GameObject.Find("Bullets").transform);
+                obj.GetComponent<EnemyBullet>().direction = playerDir;
+                obj.GetComponent<EnemyBullet>().dmg = damage;
+                obj.transform.up = player.transform.position - transform.position;
+            }
         }
     }
 
     void FixedUpdate()
     {
-        GetComponent<Rigidbody2D>().velocity = Vector3.Normalize(player.transform.position - transform.position)*speed;
+        if (!ranged || Vector3.Distance(player.transform.position, transform.position) > 6)
+            GetComponent<Rigidbody2D>().velocity = Vector3.Normalize(player.transform.position - transform.position)*speed;
+        else
+            GetComponent<Rigidbody2D>().velocity = Vector3.zero;
     }
 }

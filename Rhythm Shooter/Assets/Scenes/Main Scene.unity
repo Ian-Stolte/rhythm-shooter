@@ -284,6 +284,7 @@ GameObject:
   m_Component:
   - component: {fileID: 31294785}
   - component: {fileID: 31294786}
+  - component: {fileID: 31294787}
   m_Layer: 0
   m_Name: Enemy Spawner
   m_TagString: Untagged
@@ -322,6 +323,7 @@ MonoBehaviour:
   enemyPrefabs:
   - {fileID: 5002419556152668442, guid: 735572d6e999c4d3fb01c07924c90767, type: 3}
   - {fileID: 5002419556152668442, guid: 70d489b09678f484787e22fbd7292732, type: 3}
+  - {fileID: 5002419556152668442, guid: 65576f9e3d0794dcba9bdd829806edf0, type: 3}
   enemies:
   - minDelay: 3
     maxDelay: 5
@@ -330,12 +332,35 @@ MonoBehaviour:
   - minDelay: 2
     maxDelay: 4
     enemyPcts:
-    - 1
+    - 0.5
+    - 0
+    - 0.5
   - minDelay: 0.5
     maxDelay: 1.5
     enemyPcts:
     - 0.8
     - 0.2
+--- !u!95 &31294787
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 31294784}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0cea450b05e274d52ab537208231632c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &39073916
 GameObject:
   m_ObjectHideFlags: 0
