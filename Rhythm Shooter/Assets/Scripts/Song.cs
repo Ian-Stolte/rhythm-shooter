@@ -15,4 +15,5 @@ public class Song
     public string kickBeats;
     public string snareBeats;
     public string hiHatBeats;
+    public int highScore;
 }

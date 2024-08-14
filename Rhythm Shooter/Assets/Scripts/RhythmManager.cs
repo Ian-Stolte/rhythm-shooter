@@ -20,9 +20,9 @@ public class RhythmManager : MonoBehaviour
     public bool doingSnare;
     public bool doingHiHat;
 
-    [SerializeField] TMPro.TextMeshProUGUI scoreTxt;
+    [SerializeField] private GameObject scoreObj;
     public float score;
-    [SerializeField] TMPro.TextMeshProUGUI multiplierTxt;
+    [SerializeField] private TMPro.TextMeshProUGUI multiplierTxt;
     public float multiplier;
 
     [SerializeField] private GameObject kickPrefab;
@@ -92,6 +92,7 @@ public class RhythmManager : MonoBehaviour
         levelCleared.SetActive(false);
         gameOver.SetActive(false);
         mainMenu.SetActive(false);
+        scoreObj.SetActive(enemySpawner.activeSelf);
         player.health = player.maxHealth;
         player.transform.position = new Vector3(0, 0, 0);
         GameObject.Find("HP Bar").GetComponent<Image>().fillAmount = 1;
@@ -153,6 +154,7 @@ public class RhythmManager : MonoBehaviour
                 GameObject.Find("Song Buttons").transform.GetChild(i).GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().color = new Color32(255, 255, 255, 50);
             else
                 GameObject.Find("Song Buttons").transform.GetChild(i).GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().color = new Color32(255, 255, 255, 255);
+            GameObject.Find("Song Buttons").transform.GetChild(i).GetChild(3).GetComponent<TMPro.TextMeshProUGUI>().text = "" + songs[i].highScore;
         }
     }
 
@@ -209,8 +211,11 @@ public class RhythmManager : MonoBehaviour
     {
         if (songNum < songs.Length)
         {
-            scoreTxt.text = "" + Mathf.Round(score);
-            multiplierTxt.text = "x " + Mathf.Round(10*multiplier)/10.0f;
+            if (scoreObj.activeSelf)
+            {
+                scoreObj.GetComponent<TMPro.TextMeshProUGUI>().text = "" + Mathf.Round(score);
+                multiplierTxt.text = "x " + Mathf.Round(10*multiplier)/10.0f;
+            }
 
             //Spawn Notes
             foreach (Note n in notes)
@@ -244,11 +249,27 @@ public class RhythmManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         player.paused = true;
         StartCoroutine(Fade(levelCleared));
-        levelCleared.transform.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text = "Score: <b><color=#67A5FF>" + score + "</color></b>";
+        levelCleared.transform.GetChild(2).gameObject.SetActive(enemySpawner.activeSelf);
+        if (enemySpawner.activeSelf)
+        {
+            levelCleared.transform.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text = "Score: <b><color=#67A5FF>" + score + "</color></b>";
+            if (score > songs[songNum].highScore)
+            {
+                songs[songNum].highScore = (int)Mathf.Round(score);
+                levelCleared.transform.GetChild(2).GetChild(0).gameObject.SetActive(true);
+            }
+            else
+            {
+                levelCleared.transform.GetChild(2).GetChild(0).gameObject.SetActive(false);
+            }
+        }
         if (fightUnlocked && enemySpawner.activeSelf)
         {
-            songsUnlocked++;
-            songs[songsUnlocked].unlocked = true;
+            if (songsUnlocked < songs.Length-1)
+            {
+                songsUnlocked++;
+                songs[songsUnlocked].unlocked = true;
+            }
         }
         if (!fightUnlocked)
             exclamationPt.SetActive(true);
