@@ -39,6 +39,7 @@ public class RhythmManager : MonoBehaviour
     [SerializeField] private GameObject snareCheckbox;
     private bool fightUnlocked;
     [SerializeField] private GameObject fightButton;
+    [SerializeField] private GameObject diffSlider;
     private bool errorTutorial;
     [SerializeField] private GameObject exclamationPt;
 
@@ -62,6 +63,8 @@ public class RhythmManager : MonoBehaviour
         Time.timeScale = 1;
         if (practice)
            enemySpawner.SetActive(false);
+        else
+            enemySpawner.GetComponent<EnemySpawner>().spawnTimer = 3;
         StartCoroutine(SetUpSong());
     }
 
@@ -126,6 +129,7 @@ public class RhythmManager : MonoBehaviour
 
     public void PlaySong()
     {
+        audio.Stop(songs[songNum].name);
         audio.Play(songs[songNum].name);
         CreateNotes(songs[songNum]);
         player.paused = false;
@@ -277,6 +281,7 @@ public class RhythmManager : MonoBehaviour
         {
             fightUnlocked = true;
             fightButton.SetActive(true);
+            diffSlider.SetActive(true);
         }
         snareUnlocked = true;
         snareCheckbox.SetActive(true);

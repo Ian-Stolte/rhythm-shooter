@@ -12,7 +12,7 @@ public class EnemySpawner : MonoBehaviour
         public float[] enemyPcts;
     }
 
-    [SerializeField] private float spawnTimer = 3;
+    public float spawnTimer = 3;
     [SerializeField] private GameObject[] enemyPrefabs;
     [SerializeField] private EnemyLayout[] enemies;
     private int type;
