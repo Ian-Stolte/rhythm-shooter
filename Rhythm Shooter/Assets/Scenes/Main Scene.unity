@@ -340,6 +340,36 @@ MonoBehaviour:
     enemyPcts:
     - 0.8
     - 0.2
+  - minDelay: 0.5
+    maxDelay: 1.5
+    enemyPcts:
+    - 0.8
+    - 0.2
+  - minDelay: 0.5
+    maxDelay: 1.5
+    enemyPcts:
+    - 0.8
+    - 0.2
+  - minDelay: 0.5
+    maxDelay: 1.5
+    enemyPcts:
+    - 0.8
+    - 0.2
+  - minDelay: 0.5
+    maxDelay: 1.5
+    enemyPcts:
+    - 0.8
+    - 0.2
+  - minDelay: 0.5
+    maxDelay: 1.5
+    enemyPcts:
+    - 0.8
+    - 0.2
+  - minDelay: 0.5
+    maxDelay: 1.5
+    enemyPcts:
+    - 0.8
+    - 0.2
 --- !u!95 &31294787
 Animator:
   serializedVersion: 5
@@ -1944,7 +1974,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -5333,7 +5363,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -5758,7 +5788,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
+          m_IntArgument: 6
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -8942,7 +8972,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &889295079
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10297,7 +10327,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1054932309
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12739,7 +12769,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
+          m_IntArgument: 6
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -17085,16 +17115,37 @@ MonoBehaviour:
   beat: -7
   timesRepeated: 0
   songNum: 0
+  diffLvl: 0
   songs:
   - name: Laid-Back Guitar
     tempo: 130
     beatsPerMeasure: 4
     length: 4
-    repeats: 24
+    repeats: 4
     unlocked: 1
     kickBeats: 1, 3
     snareBeats: 3
     hiHatBeats: 
+    highScore: 0
+  - name: Laid-Back Guitar
+    tempo: 130
+    beatsPerMeasure: 4
+    length: 8
+    repeats: 12
+    unlocked: 1
+    kickBeats: 1, 2.5, 4, 5
+    snareBeats: 3, 7
+    hiHatBeats: 
+    highScore: 0
+  - name: Laid-Back Guitar
+    tempo: 130
+    beatsPerMeasure: 4
+    length: 8
+    repeats: 12
+    unlocked: 1
+    kickBeats: 1, 2.5, 4, 5, 6.5, 7.5
+    snareBeats: 3, 7
+    hiHatBeats: 1, 2, 3, 4, 5, 6, 7, 8
     highScore: 0
   - name: Chill
     tempo: 120
@@ -17102,8 +17153,48 @@ MonoBehaviour:
     length: 8
     repeats: 16
     unlocked: 1
+    kickBeats: 1, 4.5, 5.5, 6.5
+    snareBeats: 3, 7
+    hiHatBeats: 
+    highScore: 0
+  - name: Chill
+    tempo: 120
+    beatsPerMeasure: 4
+    length: 8
+    repeats: 16
+    unlocked: 0
     kickBeats: 1, 4.5, 5.5, 6.5, 8
     snareBeats: 3, 7
+    hiHatBeats: 1, 5
+    highScore: 0
+  - name: Chill
+    tempo: 120
+    beatsPerMeasure: 4
+    length: 16
+    repeats: 8
+    unlocked: 0
+    kickBeats: 1, 4.5, 5.5, 6.5, 8, 9, 9.5, 12.5, 13.5, 14.5, 16
+    snareBeats: 3, 7, 11, 15
+    hiHatBeats: 1, 2.5, 4, 5.5, 7, 8, 9, 10.5, 12, 13.5, 15, 16
+    highScore: 0
+  - name: Rock
+    tempo: 120
+    beatsPerMeasure: 4
+    length: 8
+    repeats: 22
+    unlocked: 1
+    kickBeats: 1, 2, 3, 4, 5, 6, 7, 8
+    snareBeats: 2, 4, 6, 8, 8.5
+    hiHatBeats: 
+    highScore: 0
+  - name: Rock
+    tempo: 120
+    beatsPerMeasure: 4
+    length: 8
+    repeats: 22
+    unlocked: 0
+    kickBeats: 1, 2, 3, 4, 4.5, 5, 6, 7, 7.5, 8
+    snareBeats: 2, 4, 6, 8, 8.5, 8.75
     hiHatBeats: 
     highScore: 0
   - name: Rock
@@ -17111,7 +17202,7 @@ MonoBehaviour:
     beatsPerMeasure: 4
     length: 16
     repeats: 11
-    unlocked: 1
+    unlocked: 0
     kickBeats: 1, 2, 3, 4, 4.5, 5, 6, 7, 7.5, 8, 9, 10, 11, 12, 12.5, 13, 14, 15,
       15.5, 16, 16.5
     snareBeats: 2, 4, 6, 8, 8.5, 8.75, 10, 12, 14, 16, 16.25, 16.75
@@ -17121,7 +17212,7 @@ MonoBehaviour:
   songsUnlocked: 0
   notes: []
   doingKick: 1
-  doingSnare: 0
+  doingSnare: 1
   doingHiHat: 1
   scoreObj: {fileID: 591035249}
   score: 0

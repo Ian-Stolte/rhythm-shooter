@@ -9,6 +9,7 @@ public class RhythmManager : MonoBehaviour
     public float beat;
     public int timesRepeated;
     public int songNum;
+    public int diffLvl;
     public Song[] songs;
     public int songsUnlocked;
     [SerializeField] private List<Note> notes = new List<Note>();
@@ -77,6 +78,8 @@ public class RhythmManager : MonoBehaviour
             doingSnare = GameObject.Find("Snare Checkbox").GetComponent<Checkbox>().isChecked;
         if (GameObject.Find("HiHat Checkbox") != null)
             doingHiHat = GameObject.Find("HiHat Checkbox").GetComponent<Checkbox>().isChecked;
+        if (GameObject.Find("Difficulty Slider") != null)
+            diffLvl = (int)GameObject.Find("Difficulty Slider").GetComponent<Slider>().value;
         if (snareUnlocked)
             snareCheckbox.transform.GetChild(4).gameObject.SetActive(false);
         if (fightUnlocked)
@@ -102,8 +105,8 @@ public class RhythmManager : MonoBehaviour
         timesRepeated = 0;
         endLevel = false;
         spawnMeasureBar = true;
-        rawBeat = 1 - 2*songs[songNum].beatsPerMeasure;
-        beat = 1 - 2*songs[songNum].beatsPerMeasure;
+        rawBeat = 1 - 2*songs[songNum+diffLvl].beatsPerMeasure;
+        beat = 1 - 2*songs[songNum+diffLvl].beatsPerMeasure;
         score = 0;
         multiplier = 1;
         if (!snareUnlocked && !skipTutorial)
@@ -131,7 +134,7 @@ public class RhythmManager : MonoBehaviour
     {
         audio.Stop(songs[songNum].name);
         audio.Play(songs[songNum].name);
-        CreateNotes(songs[songNum]);
+        CreateNotes(songs[songNum+diffLvl]);
         player.paused = false;
     }
 
@@ -151,28 +154,28 @@ public class RhythmManager : MonoBehaviour
         gameOver.SetActive(false);
         mainMenu.GetComponent<CanvasGroup>().alpha = 1;
         mainMenu.SetActive(true);
-        for (int i = 0; i < songs.Length; i++)
+        for (int i = 0; i < songs.Length; i += 3)
         {
-            GameObject.Find("Song Buttons").transform.GetChild(i).GetChild(0).GetComponent<Button>().interactable = songs[i].unlocked;
+            GameObject.Find("Song Buttons").transform.GetChild(i/3).GetChild(0).GetComponent<Button>().interactable = songs[i].unlocked;
             if (!songs[i].unlocked)
-                GameObject.Find("Song Buttons").transform.GetChild(i).GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().color = new Color32(255, 255, 255, 50);
+                GameObject.Find("Song Buttons").transform.GetChild(i/3).GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().color = new Color32(255, 255, 255, 50);
             else
-                GameObject.Find("Song Buttons").transform.GetChild(i).GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().color = new Color32(255, 255, 255, 255);
-            GameObject.Find("Song Buttons").transform.GetChild(i).GetChild(3).GetComponent<TMPro.TextMeshProUGUI>().text = "" + songs[i].highScore;
+                GameObject.Find("Song Buttons").transform.GetChild(i/3).GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().color = new Color32(255, 255, 255, 255);
+            GameObject.Find("Song Buttons").transform.GetChild(i/3).GetChild(3).GetComponent<TMPro.TextMeshProUGUI>().text = "" + songs[i].highScore;
         }
     }
 
     void FixedUpdate()
     {
         //Keep time
-        if (songNum < songs.Length && !player.paused)
+        if (songNum+diffLvl < songs.Length && !player.paused)
         {
-            rawBeat += 0.02f * (songs[songNum].tempo / 60.0f);
-            if (rawBeat > songs[songNum].length + 0.875f)
+            rawBeat += 0.02f * (songs[songNum+diffLvl].tempo / 60.0f);
+            if (rawBeat > songs[songNum+diffLvl].length + 0.875f)
             {
-                if (timesRepeated < songs[songNum].repeats-2)
+                if (timesRepeated < songs[songNum+diffLvl].repeats-2)
                 {
-                    rawBeat -= songs[songNum].length;
+                    rawBeat -= songs[songNum+diffLvl].length;
                     timesRepeated++;
                     foreach (Note n in notes)
                         n.spawned = false;
@@ -196,8 +199,8 @@ public class RhythmManager : MonoBehaviour
                 spawnMeasureBar = true;
                 GameObject obj = Instantiate(measureBarPrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Measure Bars").transform);
                 obj.GetComponent<RectTransform>().anchoredPosition = new Vector3(776, -375, 0);
-                obj.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "" + ((beat+1+2*songs[songNum].beatsPerMeasure)%songs[songNum].beatsPerMeasure+1);
-                if ((beat+2)%songs[songNum].beatsPerMeasure != 1)
+                obj.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "" + ((beat+1+2*songs[songNum+diffLvl].beatsPerMeasure)%songs[songNum+diffLvl].beatsPerMeasure+1);
+                if ((beat+2)%songs[songNum+diffLvl].beatsPerMeasure != 1)
                     obj.GetComponent<CanvasGroup>().alpha = 0.1f;
             }
             else if (Mathf.Abs(beat)%1 == 0.5f)
@@ -213,7 +216,7 @@ public class RhythmManager : MonoBehaviour
 
     void Update()
     {
-        if (songNum < songs.Length)
+        if (songNum+diffLvl < songs.Length)
         {
             if (scoreObj.activeSelf)
             {
@@ -224,7 +227,7 @@ public class RhythmManager : MonoBehaviour
             //Spawn Notes
             foreach (Note n in notes)
             {
-                if (n.beat%songs[songNum].length == (beat+2)%songs[songNum].length && !n.spawned && beat >= -1)
+                if (n.beat%songs[songNum+diffLvl].length == (beat+2)%songs[songNum+diffLvl].length && !n.spawned && beat >= -1)
                 {
                     if (n.drumType == Note.drums.KICK && doingKick)
                     {
@@ -257,9 +260,9 @@ public class RhythmManager : MonoBehaviour
         if (enemySpawner.activeSelf)
         {
             levelCleared.transform.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text = "Score: <b><color=#67A5FF>" + score + "</color></b>";
-            if (score > songs[songNum].highScore)
+            if (score > songs[songNum+diffLvl].highScore)
             {
-                songs[songNum].highScore = (int)Mathf.Round(score);
+                songs[songNum+diffLvl].highScore = (int)Mathf.Round(score);
                 levelCleared.transform.GetChild(2).GetChild(0).gameObject.SetActive(true);
             }
             else
@@ -271,8 +274,9 @@ public class RhythmManager : MonoBehaviour
         {
             if (songsUnlocked < songs.Length-1)
             {
-                songsUnlocked++;
-                songs[songsUnlocked].unlocked = true;
+                songsUnlocked += 3;
+                for (int i = 0; i < 3; i++)
+                    songs[songsUnlocked+i].unlocked = true;
             }
         }
         if (!fightUnlocked)
