@@ -161,7 +161,6 @@ public class RhythmManager : MonoBehaviour
                 GameObject.Find("Song Buttons").transform.GetChild(i/3).GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().color = new Color32(255, 255, 255, 50);
             else
                 GameObject.Find("Song Buttons").transform.GetChild(i/3).GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().color = new Color32(255, 255, 255, 255);
-            GameObject.Find("Song Buttons").transform.GetChild(i/3).GetChild(3).GetComponent<TMPro.TextMeshProUGUI>().text = "" + songs[i].highScore;
         }
     }
 

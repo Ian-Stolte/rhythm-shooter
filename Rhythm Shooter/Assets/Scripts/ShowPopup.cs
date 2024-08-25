@@ -7,7 +7,7 @@ public class ShowPopup : MonoBehaviour
     [SerializeField] private GameObject popup;
     [SerializeField] private GameObject exclamationPt;
 
-    public void Show()
+    public void Show(int songNum)
     {
         foreach (GameObject g in GameObject.FindGameObjectsWithTag("Popup"))
         {
@@ -18,5 +18,7 @@ public class ShowPopup : MonoBehaviour
         if (exclamationPt != null)
             exclamationPt.SetActive(false);
         //maybe play an animation
+
+        GameObject.Find("Rhythm Manager").GetComponent<RhythmManager>().songNum = songNum;
     }
 }
