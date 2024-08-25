@@ -41,6 +41,7 @@ public class RhythmManager : MonoBehaviour
     private bool fightUnlocked;
     [SerializeField] private GameObject fightButton;
     [SerializeField] private GameObject diffSlider;
+    [SerializeField] private GameObject highScore;
     private bool errorTutorial;
     [SerializeField] private GameObject exclamationPt;
 
@@ -284,7 +285,9 @@ public class RhythmManager : MonoBehaviour
         {
             fightUnlocked = true;
             fightButton.SetActive(true);
-            diffSlider.SetActive(true);
+            diffSlider.GetComponent<Slider>().interactable = true;
+            diffSlider.transform.GetChild(0).GetComponent<CanvasGroup>().alpha = 1;
+            highScore.SetActive(true);
         }
         snareUnlocked = true;
         snareCheckbox.SetActive(true);

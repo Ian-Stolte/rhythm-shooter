@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShowPopup : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class ShowPopup : MonoBehaviour
             exclamationPt.SetActive(false);
         //maybe play an animation
 
-        GameObject.Find("Rhythm Manager").GetComponent<RhythmManager>().songNum = songNum;
+        RhythmManager r = GameObject.Find("Rhythm Manager").GetComponent<RhythmManager>();
+        r.songNum = songNum;
+        if (GameObject.Find("High Score") != null)
+            GameObject.Find("High Score").GetComponent<TMPro.TextMeshProUGUI>().text = "" + r.songs[songNum+(int)GameObject.Find("Difficulty Slider").GetComponent<Slider>().value].highScore;
     }
 }

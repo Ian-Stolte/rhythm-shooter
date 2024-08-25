@@ -26,21 +26,21 @@ public class EnemySpawner : MonoBehaviour
 
     void Update()
     {
-        if (r.songNum < r.songs.Length && !GameObject.Find("Player").GetComponent<PlayerController>().paused)
+        if (r.songNum+r.diffLvl < r.songs.Length && !GameObject.Find("Player").GetComponent<PlayerController>().paused)
         {
             spawnTimer -= Time.deltaTime;
-            if (spawnTimer < 0 && r.timesRepeated < r.songs[r.songNum].repeats) //TODO: better way to cut off as the song is ending
+            if (spawnTimer < 0 && r.timesRepeated < r.songs[r.songNum+r.diffLvl].repeats) //TODO: better way to cut off as the song is ending
             {
                 int numEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length;
                 if (numEnemies == 0)
                     numEnemies = 1;
-                spawnTimer = Random.Range(enemies[r.songNum].minDelay * (numEnemies/5.0f), enemies[r.songNum].maxDelay * (numEnemies/5.0f));
+                spawnTimer = Random.Range(enemies[r.songNum+r.diffLvl].minDelay * (numEnemies/5.0f), enemies[r.songNum+r.diffLvl].maxDelay * (numEnemies/5.0f));
                 Vector3 spawnLoc = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), 0);
                 float typeVal = Random.Range(0, 1.0f);
                 float runningPct = 0;
-                for (int i = 0; i < enemies[r.songNum].enemyPcts.Length; i++)
+                for (int i = 0; i < enemies[r.songNum+r.diffLvl].enemyPcts.Length; i++)
                 {
-                    runningPct += enemies[r.songNum].enemyPcts[i];
+                    runningPct += enemies[r.songNum+r.diffLvl].enemyPcts[i];
                     if (typeVal < runningPct)
                     {
                         type = i;
