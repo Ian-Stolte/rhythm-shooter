@@ -44,6 +44,7 @@ public class RhythmManager : MonoBehaviour
     [SerializeField] private GameObject highScore;
     private bool errorTutorial;
     [SerializeField] private GameObject exclamationPt;
+    private bool hiHatTutorial;
 
     private AudioManager audio;
     private PlayerController player;
@@ -124,6 +125,12 @@ public class RhythmManager : MonoBehaviour
         {
             yield return new WaitForSeconds(0.5f);
             StartCoroutine(GameObject.Find("Fight Tutorial").GetComponent<Tutorial>().PlayTutorial());
+        }
+        else if (doingHiHat && !hiHatTutorial)
+        {
+            yield return new WaitForSeconds(0.5f);
+            StartCoroutine(GameObject.Find("HiHat Tutorial").GetComponent<Tutorial>().PlayTutorial());
+            hiHatTutorial = true;
         }
         else
         {
