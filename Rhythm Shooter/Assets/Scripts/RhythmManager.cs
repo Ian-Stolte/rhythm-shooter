@@ -35,7 +35,7 @@ public class RhythmManager : MonoBehaviour
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject enemySpawner;
 
-    [SerializeField] private bool skipTutorial;
+    public bool skipTutorial;
     private bool snareUnlocked;
     [SerializeField] private GameObject snareCheckbox;
     private bool fightUnlocked;
@@ -144,6 +144,24 @@ public class RhythmManager : MonoBehaviour
         audio.Play(songs[songNum].name);
         CreateNotes(songs[songNum+diffLvl]);
         player.paused = false;
+    }
+
+    public void SkipTutorial()
+    {
+        skipTutorial = true;
+        snareCheckbox.SetActive(true);
+        fightButton.SetActive(true);
+        diffSlider.GetComponent<Slider>().interactable = true;
+        diffSlider.transform.GetChild(0).GetComponent<CanvasGroup>().alpha = 1;
+        highScore.SetActive(true);
+        foreach (Transform child in GameObject.Find("Song Buttons").transform)
+        {
+            child.GetChild(0).GetComponent<Button>().interactable = true;
+            child.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().color = new Color32(255, 255, 255, 255);
+        }
+        foreach (Song s in songs)
+            s.unlocked = true;
+        GameObject.Find("Skip Tutorial Button").SetActive(false);
     }
 
     public void ExitToMenu()

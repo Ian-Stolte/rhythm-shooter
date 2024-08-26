@@ -9,6 +9,7 @@ TagManager:
   - HiHat
   - Popup
   - Enemy
+  - Exclamation
   layers:
   - Default
   - TransparentFX

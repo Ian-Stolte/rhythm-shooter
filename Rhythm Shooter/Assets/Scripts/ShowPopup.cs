@@ -24,5 +24,12 @@ public class ShowPopup : MonoBehaviour
         r.songNum = songNum;
         if (GameObject.Find("High Score") != null)
             GameObject.Find("High Score").GetComponent<TMPro.TextMeshProUGUI>().text = "" + r.songs[songNum+(int)GameObject.Find("Difficulty Slider").GetComponent<Slider>().value].highScore;
+        if (r.skipTutorial)
+        {
+            foreach (GameObject g in GameObject.FindGameObjectsWithTag("Exclamation"))
+            {
+                g.SetActive(false);
+            }
+        }
     }
 }
