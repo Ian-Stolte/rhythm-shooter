@@ -106,6 +106,7 @@ public class RhythmManager : MonoBehaviour
         GameObject.Find("HP Bar").GetComponent<Image>().fillAmount = 1;
         timesRepeated = 0;
         endLevel = false;
+        resetNotes = false;
         spawnMeasureBar = true;
         rawBeat = 1 - 2*songs[songNum+diffLvl].beatsPerMeasure;
         beat = 1 - 2*songs[songNum+diffLvl].beatsPerMeasure;
@@ -126,7 +127,7 @@ public class RhythmManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
             StartCoroutine(GameObject.Find("Fight Tutorial").GetComponent<Tutorial>().PlayTutorial());
         }
-        else if (doingHiHat && !hiHatTutorial)
+        else if (doingHiHat && !hiHatTutorial && !skipTutorial)
         {
             yield return new WaitForSeconds(0.5f);
             StartCoroutine(GameObject.Find("HiHat Tutorial").GetComponent<Tutorial>().PlayTutorial());
@@ -150,7 +151,9 @@ public class RhythmManager : MonoBehaviour
     {
         skipTutorial = true;
         snareCheckbox.SetActive(true);
+        snareUnlocked = true;
         fightButton.SetActive(true);
+        fightUnlocked = true;
         diffSlider.GetComponent<Slider>().interactable = true;
         diffSlider.transform.GetChild(0).GetComponent<CanvasGroup>().alpha = 1;
         highScore.SetActive(true);
@@ -202,8 +205,7 @@ public class RhythmManager : MonoBehaviour
                 {
                     rawBeat -= songs[songNum+diffLvl].length;
                     timesRepeated++;
-                    foreach (Note n in notes)
-                        n.spawned = false;
+                    resetNotes = false;
                 }
                 else if (!endLevel)
                 {
@@ -211,14 +213,13 @@ public class RhythmManager : MonoBehaviour
                     StartCoroutine(EndLevel());
                 }
             }
-            beat = Mathf.Round(4 * rawBeat) / 4;
-            if (beat == 1 && !resetNotes)
+            else if (beat == songs[songNum+diffLvl].length - 2 && !resetNotes)
             {
                 resetNotes = true;
                 foreach (Note n in notes)
                     n.spawned = false;
-                //TODO: fix this! (notes still disappearing)
             }
+            beat = Mathf.Round(4 * rawBeat) / 4;
             if (Mathf.Abs(beat)%1 == 0 && !spawnMeasureBar)
             {
                 spawnMeasureBar = true;
