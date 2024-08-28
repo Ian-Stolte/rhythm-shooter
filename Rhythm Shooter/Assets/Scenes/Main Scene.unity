@@ -403,15 +403,15 @@ MonoBehaviour:
   - minDelay: 2
     maxDelay: 4
     enemyPcts:
-    - 0.5
-    - 0
-    - 0.5
-  - minDelay: 0.5
-    maxDelay: 1.5
-    enemyPcts:
     - 0.7
     - 0
     - 0.3
+  - minDelay: 0.5
+    maxDelay: 1.5
+    enemyPcts:
+    - 0.5
+    - 0
+    - 0.5
   - minDelay: 3
     maxDelay: 5
     enemyPcts:

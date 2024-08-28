@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(GameOver());
             }
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
         {
             if (!paused)
             {
@@ -127,6 +127,7 @@ public class PlayerController : MonoBehaviour
         paused = true;
         StartCoroutine(GameObject.Find("Audio Manager").GetComponent<AudioManager>().FadeOutAll(1));
         StartCoroutine(rhythm.Fade(gameOver, false));
+        gameOver.transform.GetChild(2).GetComponent<CanvasGroup>().alpha = 0;
         gameOver.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = "Game Over";
         yield return new WaitForSeconds(1);
         StartCoroutine(rhythm.Fade(gameOver.transform.GetChild(2).gameObject, false));

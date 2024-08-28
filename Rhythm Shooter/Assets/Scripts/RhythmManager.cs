@@ -180,6 +180,7 @@ public class RhythmManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         enemySpawner.SetActive(true);
         levelCleared.SetActive(false);
+        levelCleared.transform.GetChild(3).GetComponent<CanvasGroup>().alpha = 0;
         gameOver.SetActive(false);
         mainMenu.GetComponent<CanvasGroup>().alpha = 1;
         mainMenu.SetActive(true);
