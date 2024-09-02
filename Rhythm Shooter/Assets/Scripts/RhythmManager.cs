@@ -122,7 +122,7 @@ public class RhythmManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
             StartCoroutine(GameObject.Find("Snare Tutorial").GetComponent<Tutorial>().PlayTutorial());
         }
-        else if (!songs[1].unlocked && !skipTutorial)
+        else if (!songs[3].unlocked && !skipTutorial)
         {
             yield return new WaitForSeconds(0.5f);
             StartCoroutine(GameObject.Find("Fight Tutorial").GetComponent<Tutorial>().PlayTutorial());
@@ -297,7 +297,7 @@ public class RhythmManager : MonoBehaviour
                 levelCleared.transform.GetChild(2).GetChild(0).gameObject.SetActive(false);
             }
         }
-        if (fightUnlocked && enemySpawner.activeSelf)
+        if (fightUnlocked && enemySpawner.activeSelf && songNum == songsUnlocked)
         {
             if (songsUnlocked < songs.Length-1)
             {

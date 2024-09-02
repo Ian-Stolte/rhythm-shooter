@@ -389,7 +389,7 @@ MonoBehaviour:
     enemyPcts:
     - 1
   - minDelay: 2
-    maxDelay: 4
+    maxDelay: 3
     enemyPcts:
     - 1
   - minDelay: 0.5
@@ -412,12 +412,12 @@ MonoBehaviour:
     - 0.5
     - 0
     - 0.5
-  - minDelay: 3
-    maxDelay: 5
-    enemyPcts:
-    - 1
   - minDelay: 2
     maxDelay: 4
+    enemyPcts:
+    - 1
+  - minDelay: 1.5
+    maxDelay: 3
     enemyPcts:
     - 0.8
     - 0.2
@@ -7300,8 +7300,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Right click anywhere on the screen when a <color=#E58ED4>Snare note</color>
-    passes the bar.
+  m_text: <color=#E58ED4>Right click</color> anywhere on the screen when a <color=#E58ED4>Snare
+    note</color> passes the bar.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7364,7 +7364,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -75.56999, y: 0, z: -76.566864, w: 0}
+  m_margin: {x: -107.73387, y: 0, z: -102.78752, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -18484,7 +18484,7 @@ MonoBehaviour:
     tempo: 120
     beatsPerMeasure: 4
     length: 8
-    repeats: 22
+    repeats: 21
     unlocked: 0
     kickBeats: 1, 2, 3, 4, 5, 6, 7, 8
     snareBeats: 2, 4, 6, 8, 8.5
@@ -18494,7 +18494,7 @@ MonoBehaviour:
     tempo: 120
     beatsPerMeasure: 4
     length: 8
-    repeats: 22
+    repeats: 21
     unlocked: 0
     kickBeats: 1, 2, 3, 4, 4.5, 5, 6, 7, 7.5, 8
     snareBeats: 2, 4, 6, 8, 8.5, 8.75
@@ -19685,7 +19685,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <color=#E58ED4>Snare bullets</color> are slower but do double damage!
+  m_text: <color=#E58ED4>Snare bullets</color> are slower but do more damage!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
