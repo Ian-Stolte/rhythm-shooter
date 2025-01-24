@@ -67,11 +67,22 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        int horiz = 0;
+        int vert = 0;
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+            horiz -= 1;
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+            horiz += 1;
+        if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+            vert -= 1;
+        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+            vert += 1;
+
         if (!paused)
         {
-            float moveMag = Mathf.Sqrt(Mathf.Pow(Input.GetAxisRaw("Horizontal"), 2) + Mathf.Pow(Input.GetAxisRaw("Vertical"), 2));
+            float moveMag = Mathf.Sqrt(Mathf.Pow(horiz, 2) + Mathf.Pow(vert, 2));
             if (moveMag > 0)
-                transform.position += new Vector3(Input.GetAxisRaw("Horizontal")*speed*0.02f/moveMag, Input.GetAxisRaw("Vertical")*speed*0.02f/moveMag, 0);
+                transform.position += new Vector3(horiz*speed*0.02f/moveMag, vert*speed*0.02f/moveMag, 0);
         }
     }
 

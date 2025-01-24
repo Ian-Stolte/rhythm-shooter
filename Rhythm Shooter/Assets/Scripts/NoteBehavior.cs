@@ -7,6 +7,7 @@ public class NoteBehavior : MonoBehaviour
 {
     [SerializeField] private float speed;
     public bool played;
+    private bool soundPlayed;
     private bool startedFade;
     private bool missedSound;
     private Vector3 barPos;
@@ -23,6 +24,12 @@ public class NoteBehavior : MonoBehaviour
 
     void Update()
     {
+        if (Mathf.Abs(GetComponent<RectTransform>().anchoredPosition.x - barPos.x) < 40 && !soundPlayed)
+        {
+            soundPlayed = true;
+            audio.GetComponent<AudioManager>().Play("Missed " + type);
+        }
+
         if (Input.GetKeyDown(triggerKey) && !played && !GameObject.Find("Player").GetComponent<PlayerController>().paused)
         {
             bool correctTiming = false;
@@ -36,7 +43,7 @@ public class NoteBehavior : MonoBehaviour
                 played = true;
                 GameObject.Find("Player").GetComponent<PlayerController>().FireBullet(type);
                 GetComponent<Animator>().Play("HitNote");
-                audio.Play("Success " + type); //TODO: find some way to play it at the right time, even if the input is a little off
+                //.Play("Success " + type); //TODO: find some way to play it at the right time, even if the input is a little off
                 StartCoroutine(FadeOut(1));
             }
             else if (GetComponent<RectTransform>().anchoredPosition.x - barPos.x < 80 && !correctTiming)
@@ -66,7 +73,7 @@ public class NoteBehavior : MonoBehaviour
             if (GetComponent<RectTransform>().anchoredPosition.x < barPos.x && !missedSound && !GameObject.Find("Player").GetComponent<PlayerController>().paused)
             {
                 missedSound = true;
-                audio.GetComponent<AudioManager>().Play("Missed " + type);
+                //audio.GetComponent<AudioManager>().Play("Missed " + type);
             }
         }
     }

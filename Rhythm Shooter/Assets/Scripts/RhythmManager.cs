@@ -36,6 +36,7 @@ public class RhythmManager : MonoBehaviour
     [SerializeField] private GameObject enemySpawner;
 
     public bool skipTutorial;
+    int earlyStop;
     private bool snareUnlocked;
     [SerializeField] private GameObject snareCheckbox;
     private bool fightUnlocked;
@@ -108,24 +109,32 @@ public class RhythmManager : MonoBehaviour
         endLevel = false;
         resetNotes = false;
         spawnMeasureBar = true;
-        rawBeat = 1 - 2*songs[songNum+diffLvl].beatsPerMeasure;
-        beat = 1 - 2*songs[songNum+diffLvl].beatsPerMeasure;
+        if (songNum == 0)
+            rawBeat = 0.75f - 2*songs[songNum+diffLvl].beatsPerMeasure;
+        else if (songNum == 3)
+            rawBeat = 0.75f - 2*songs[songNum+diffLvl].beatsPerMeasure;
+        else if (songNum == 6)
+            rawBeat = 0.5f - 2*songs[songNum+diffLvl].beatsPerMeasure;
+        beat = Mathf.Round(4 * rawBeat) / 4;
         score = 0;
         multiplier = 1;
         if (!snareUnlocked && !skipTutorial)
         {
             yield return new WaitForSeconds(0.5f);
             StartCoroutine(GameObject.Find("First Tutorial").GetComponent<Tutorial>().PlayTutorial());
+            earlyStop = 12;
         }
         else if (!fightUnlocked && !skipTutorial)
         {
             yield return new WaitForSeconds(0.5f);
             StartCoroutine(GameObject.Find("Snare Tutorial").GetComponent<Tutorial>().PlayTutorial());
+            earlyStop = 12;
         }
         else if (!songs[3].unlocked && !skipTutorial)
         {
             yield return new WaitForSeconds(0.5f);
             StartCoroutine(GameObject.Find("Fight Tutorial").GetComponent<Tutorial>().PlayTutorial());
+            earlyStop = 0;
         }
         else if (doingHiHat && !hiHatTutorial && !skipTutorial)
         {
@@ -149,12 +158,14 @@ public class RhythmManager : MonoBehaviour
 
     public void SkipTutorial()
     {
+        earlyStop = 0;
         skipTutorial = true;
         snareCheckbox.SetActive(true);
         snareUnlocked = true;
         fightButton.SetActive(true);
         fightUnlocked = true;
         diffSlider.GetComponent<Slider>().interactable = true;
+        diffSlider.transform.GetChild(1).gameObject.SetActive(true);
         diffSlider.transform.GetChild(0).GetComponent<CanvasGroup>().alpha = 1;
         highScore.SetActive(true);
         foreach (Transform child in GameObject.Find("Song Buttons").transform)
@@ -175,7 +186,7 @@ public class RhythmManager : MonoBehaviour
 
     private IEnumerator ExitToMenuCor()
     {
-        StartCoroutine(GameObject.Find("Audio Manager").GetComponent<AudioManager>().FadeOutAll(1));
+        StartCoroutine(audio.FadeOutAll(1));
         GameObject.Find("Fader").GetComponent<Animator>().Play("FadeCross");
         yield return new WaitForSeconds(0.5f);
         enemySpawner.SetActive(true);
@@ -202,7 +213,7 @@ public class RhythmManager : MonoBehaviour
             rawBeat += 0.02f * (songs[songNum+diffLvl].tempo / 60.0f);
             if (rawBeat > songs[songNum+diffLvl].length + 0.875f)
             {
-                if (timesRepeated < songs[songNum+diffLvl].repeats-2)
+                if (timesRepeated < songs[songNum+diffLvl].repeats-2 && (timesRepeated < earlyStop || earlyStop == 0))
                 {
                     rawBeat -= songs[songNum+diffLvl].length;
                     timesRepeated++;
