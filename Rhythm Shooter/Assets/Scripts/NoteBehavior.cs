@@ -89,5 +89,4 @@ public class NoteBehavior : MonoBehaviour
         }
         Destroy(gameObject);
     }
-
 }
